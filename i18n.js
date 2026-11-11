@@ -39,6 +39,10 @@
     {
       title: 'Magic 8 Ball',
       body: 'A Telegram bot with mystical predictions. Ask a question that can be answered with “yes” or “no” and receive a mysterious answer from the Magic 8 Ball.<br>The bot also features a referral program.'
+    },
+    {
+      title: 'Tarot Readings',
+      body: 'A Telegram Mini App for personalized Tarot readings and card interpretations. Choose a spread, ask your question and explore the meaning of the cards directly in Telegram.<br>The app also features a referral program.'
     }
   ];
 
@@ -114,7 +118,7 @@
     });
     projectActionLinks.forEach((link, index) => {
       link.textContent = isEnglish
-        ? (index === 0 ? 'Open MyBooking.uz' : 'Open bot')
+        ? (index === 0 ? 'Open MyBooking.uz' : index === 1 ? 'Open bot' : 'Open app')
         : originalProjectActionLabels[index];
     });
 
