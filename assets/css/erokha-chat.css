@@ -5,7 +5,7 @@
 #erokha-chat button{cursor:pointer}
 #erokha-chat .erokha-launcher{position:relative;isolation:isolate;display:grid;place-items:center;width:62px;height:62px;padding:4px;margin-left:auto;border-radius:50%;background:linear-gradient(145deg,#2e6774,#12283c);border:1px solid #92ffe6b5;box-shadow:0 14px 35px #0009,0 0 18px #65e2c222;pointer-events:auto;animation:erokha-launch-breathe 5.2s ease-in-out infinite;transition:opacity .26s ease,visibility 0s linear .28s,box-shadow .3s ease}
 #erokha-chat .erokha-launcher img{width:100%;height:100%;border-radius:50%;object-fit:cover}
-#erokha-chat .erokha-panel{position:absolute;right:0;bottom:calc(100% + 12px);display:flex;flex-direction:column;width:min(390px,calc(100vw - 24px));height:min(570px,calc(100dvh - 110px));margin:0;background:linear-gradient(155deg,rgba(35,65,83,.87),rgba(12,27,46,.9) 45%,rgba(10,24,40,.94));-webkit-backdrop-filter:blur(26px) saturate(175%);backdrop-filter:blur(26px) saturate(175%);border:1px solid #d5f4ff55;border-radius:20px;box-shadow:inset 0 1px 0 #ffffff30,0 25px 70px #000c,0 0 38px #65e2c21c;overflow:hidden;isolation:isolate;visibility:hidden;opacity:0;transform:translate3d(0,22px,0) scale(.94);transform-origin:bottom right;pointer-events:none;transition:opacity .34s ease,transform .48s cubic-bezier(.18,.83,.2,1),visibility 0s linear .48s}
+#erokha-chat .erokha-panel{position:absolute;right:0;bottom:0;display:flex;flex-direction:column;width:min(390px,calc(100vw - 24px));height:min(570px,calc(100dvh - 40px));margin:0;background:linear-gradient(155deg,rgba(35,65,83,.87),rgba(12,27,46,.9) 45%,rgba(10,24,40,.94));-webkit-backdrop-filter:blur(26px) saturate(175%);backdrop-filter:blur(26px) saturate(175%);border:1px solid #d5f4ff55;border-radius:20px;box-shadow:inset 0 1px 0 #ffffff30,0 25px 70px #000c,0 0 38px #65e2c21c;overflow:hidden;isolation:isolate;visibility:hidden;opacity:0;transform:translate3d(0,22px,0) scale(.94);transform-origin:bottom right;pointer-events:none;transition:opacity .34s ease,transform .48s cubic-bezier(.18,.83,.2,1),visibility 0s linear .48s}
 #erokha-chat.is-open .erokha-panel{visibility:visible;opacity:1;transform:translate3d(0,0,0) scale(1);pointer-events:auto;transition:opacity .38s ease,transform .52s cubic-bezier(.18,.83,.2,1),visibility 0s}
 #erokha-chat.is-open .erokha-launcher{animation:none;opacity:0;transform:scale(.78);visibility:hidden;pointer-events:none}
 #erokha-chat .erokha-head{display:flex;align-items:center;gap:11px;padding:12px 14px;background:linear-gradient(120deg,#1c3c43,#18253a);border-bottom:1px solid #ffffff22}
@@ -96,7 +96,7 @@
 @keyframes erokha-glass-wave{0%,15%{transform:translate3d(-48%,0,0)}64%,100%{transform:translate3d(52%,0,0)}}
 @keyframes erokha-digital-wave{0%{transform:translate3d(-15%,-12%,0) rotate(-3deg)}100%{transform:translate3d(14%,10%,0) rotate(3deg)}}
 @media(max-width:600px) and (min-height:541px){
-  #erokha-chat .erokha-panel{height:min(660px,calc(100dvh - 100px - env(safe-area-inset-bottom)));transform-origin:bottom right}
+  #erokha-chat .erokha-panel{height:min(660px,calc(100dvh - 32px - env(safe-area-inset-bottom)));transform-origin:bottom right}
 }
 @media(prefers-reduced-transparency:reduce){
   #erokha-chat .erokha-panel{-webkit-backdrop-filter:none;backdrop-filter:none;background:#122237}
