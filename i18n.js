@@ -33,16 +33,20 @@
 
   const projectTranslations = [
     {
-      title: 'MyBooking.uz Telegram MINI APP',
-      body: 'Find and book hotels across Uzbekistan directly in Telegram.<br><span class="text-gray-500">Stack:</span><br>React 18 + TypeScript • Vite (SWC) • TailwindCSS • shadcn/ui • Framer Motion • Axios • Telegram WebApp SDK<br>Node.js (Express) • Nginx (reverse proxy, caching, SSL, CORS) • Partners API (MyBooking.uz)<br><span class="text-gray-500 text-sm">Open the app and try it right now!</span>'
+      title: 'Horo Telegram',
+      body: 'Personalized horoscopes and AI-powered predictions about life, love, work, finances and the future. Daily, weekly, monthly and yearly forecasts, plus individual astrology readings in a Telegram Mini App.<br>The app also offers a referral program.'
+    },
+    {
+      title: 'Tarot Readings',
+      body: 'A Telegram Mini App for personalized Tarot readings and card interpretations. Choose a spread, ask your question and explore the meaning of the cards directly in Telegram.<br>The app also features a referral program.'
     },
     {
       title: 'Magic 8 Ball',
       body: 'A Telegram bot with mystical predictions. Ask a question that can be answered with “yes” or “no” and receive a mysterious answer from the Magic 8 Ball.<br>The bot also features a referral program.'
     },
     {
-      title: 'Tarot Readings',
-      body: 'A Telegram Mini App for personalized Tarot readings and card interpretations. Choose a spread, ask your question and explore the meaning of the cards directly in Telegram.<br>The app also features a referral program.'
+      title: 'MyBooking.uz Telegram MINI APP',
+      body: 'Find and book hotels across Uzbekistan directly in Telegram.<br><span class="text-gray-500">Stack:</span><br>React 18 + TypeScript • Vite (SWC) • TailwindCSS • shadcn/ui • Framer Motion • Axios • Telegram WebApp SDK<br>Node.js (Express) • Nginx (reverse proxy, caching, SSL, CORS) • Partners API (MyBooking.uz)<br><span class="text-gray-500 text-sm">Open the app and try it right now!</span>'
     }
   ];
 
@@ -118,7 +122,7 @@
     });
     projectActionLinks.forEach((link, index) => {
       link.textContent = isEnglish
-        ? (index === 0 ? 'Open MyBooking.uz' : index === 1 ? 'Open bot' : 'Open app')
+        ? (link.href.includes('Mybookinguz_app_bot') ? 'Open MyBooking.uz' : link.href.includes('m8all_MJFW_bot') ? 'Open bot' : 'Open app')
         : originalProjectActionLabels[index];
     });
 
