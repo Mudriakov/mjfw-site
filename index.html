@@ -87,10 +87,12 @@
     #projects .grid > div:hover { border-color: rgba(101,226,194,.48); transform: translateY(-3px); }
     #projects .grid h3 { color: #eff8ff; font-size: 1.12rem; line-height: 1.55; letter-spacing: -.02em; margin-bottom: 12px; }
     /* MyBooking avatar stays inside the existing card without changing the grid. */
-    #projects .mybooking-card, #projects .magicball-card, #projects .tarot-card, #projects .horo-card, #projects .erokha-card, #projects .minuetai-card { position: relative; }
-    #projects .mybooking-avatar, #projects .magicball-avatar, #projects .tarot-avatar, #projects .horo-avatar, #projects .erokha-avatar, #projects .minuetai-avatar { position: absolute; top: 25px; left: 25px; width: 40px; height: 40px; max-width: none; border-radius: 50%; object-fit: cover; border: 1px solid rgba(170,197,230,.23); }
-    #projects .mybooking-card > h3, #projects .magicball-card > h3, #projects .tarot-card > h3, #projects .horo-card > h3, #projects .erokha-card > h3, #projects .minuetai-card > h3 { padding-left: 52px; min-height: 40px; display: flex; align-items: center; }
-    @media (max-width: 480px) { #projects .mybooking-avatar, #projects .magicball-avatar, #projects .tarot-avatar, #projects .horo-avatar, #projects .erokha-avatar, #projects .minuetai-avatar { top: 20px; left: 20px; } }
+    #projects .mybooking-card, #projects .magicball-card, #projects .tarot-card, #projects .horo-card, #projects .erokha-card, #projects .minuetai-card, #projects .shuhov-card { position: relative; }
+    #projects .mybooking-avatar, #projects .magicball-avatar, #projects .tarot-avatar, #projects .horo-avatar, #projects .erokha-avatar, #projects .minuetai-avatar, #projects .shuhov-avatar { position: absolute; top: 25px; left: 25px; width: 40px; height: 40px; max-width: none; border-radius: 50%; object-fit: cover; border: 1px solid rgba(170,197,230,.23); }
+    #projects .mybooking-card > h3, #projects .magicball-card > h3, #projects .tarot-card > h3, #projects .horo-card > h3, #projects .erokha-card > h3, #projects .minuetai-card > h3, #projects .shuhov-card > h3 { padding-left: 52px; min-height: 40px; display: flex; align-items: center; }
+    @media (max-width: 480px) { #projects .mybooking-avatar, #projects .magicball-avatar, #projects .tarot-avatar, #projects .horo-avatar, #projects .erokha-avatar, #projects .minuetai-avatar, #projects .shuhov-avatar { top: 20px; left: 20px; } }
+    #projects .project-status { display: inline-flex; align-items: center; align-self: flex-start; gap: 7px; padding: 5px 11px; margin: 0 0 15px 52px; border: 1px solid rgba(251,191,36,.3); border-radius: 999px; color: #fcd38a; background: rgba(251,191,36,.09); font-size: .72rem; line-height: 1.4; font-weight: 800; white-space: nowrap; letter-spacing: .015em; }
+    #projects .project-status::before { content: ''; width: 6px; height: 6px; flex: 0 0 6px; border-radius: 50%; background: #fbbf24; box-shadow: 0 0 8px rgba(251,191,36,.4); }
     #projects .grid p { color: var(--muted); font-size: .91rem; line-height: 1.82; margin-bottom: 13px; }
     #projects .grid a { color: var(--accent); text-underline-offset: 4px; font-size: .89rem; font-weight: 700; overflow-wrap: anywhere; }
     #projects .grid a:hover { color: #c1ffed; }
@@ -209,9 +211,17 @@
       <section id="projects" class="my-16">
         <h2 class="text-3xl font-bold mb-4 border-b pb-2" data-i18n="projectsHeading">Проекты</h2>
         <div class="grid md:grid-cols-2 gap-6">
+          <div class="bg-gray-800 rounded-xl p-4 shadow-md hover:scale-[1.02] transition shuhov-card">
+            <img src="/shuhov-avatar.png" alt="Код Шухова" class="shuhov-avatar" width="40" height="40" loading="lazy" decoding="async" />
+            <h3 class="text-xl font-semibold">Код Шухова - AI-платформа</h3>
+            <span class="project-status" data-i18n="devStatus">В разработке</span>
+            <p class="text-gray-400">Веб-платформа для создания сайтов и веб-приложений с помощью искусственного интеллекта. Объединяет ИИ-агента, визуальное редактирование интерфейсов и работу с исходным кодом в одном пространстве.<br>Названа в честь выдающегося инженера Владимира Григорьевича Шухова.</p>
+            <a href="https://shuhov-code.ru" target="_blank" rel="noopener noreferrer" class="text-blue-400 underline">Открыть платформу</a>
+          </div>
           <div class="bg-gray-800 rounded-xl p-4 shadow-md hover:scale-[1.02] transition minuetai-card">
             <img src="/minuetai-avatar.png" alt="MinuetAI" class="minuetai-avatar" width="40" height="40" loading="lazy" decoding="async" />
             <h3 class="text-xl font-semibold">MinuetAI | Музыка с ИИ</h3>
+            <span class="project-status" data-i18n="devStatus">В разработке</span>
             <p class="text-gray-400">Telegram Mini App для создания музыки и песен с помощью искусственного интеллекта. Превращайте идеи и текстовые описания в готовые композиции с музыкой и вокалом прямо в Telegram.<br>Создавайте собственные треки, экспериментируйте со стилями и слушайте результат в приложении.</p>
             <a href="https://t.me/MinuetAI_bot" target="_blank" rel="noopener noreferrer" class="text-blue-400 underline">Открыть приложение</a>
           </div>

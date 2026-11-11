@@ -27,11 +27,16 @@
     emailAction: 'Send an email',
     vkName: 'VK',
     footerServices: 'Web development · AI · Automation',
+    devStatus: 'In development',
     cookieText: 'This website uses cookies to improve your experience.',
     cookieAccept: 'Accept',
   };
 
   const projectTranslations = [
+    {
+      title: 'Shuhov Code - AI Platform',
+      body: 'A web platform for building websites and web applications with artificial intelligence. It brings together an AI agent, visual interface editing and source-code tools in one workspace.<br>Named in honor of the engineer Vladimir Grigoryevich Shukhov.'
+    },
     {
       title: 'MinuetAI | AI Music',
       body: 'A Telegram Mini App for creating music and songs with artificial intelligence. Turn ideas and text prompts into complete tracks with music and vocals right inside Telegram.<br>Create your own songs, explore musical styles and listen to the results in the app.'
@@ -130,7 +135,7 @@
     });
     projectActionLinks.forEach((link, index) => {
       link.textContent = isEnglish
-        ? (link.href.includes('Mybookinguz_app_bot') ? 'Open MyBooking.uz' : (link.href.includes('m8all_MJFW_bot') || link.href.includes('ai_vps_administrator_bot')) ? 'Open bot' : 'Open app')
+        ? (link.href.includes('shuhov-code.ru') ? 'Visit platform' : link.href.includes('Mybookinguz_app_bot') ? 'Open MyBooking.uz' : (link.href.includes('m8all_MJFW_bot') || link.href.includes('ai_vps_administrator_bot')) ? 'Open bot' : 'Open app')
         : originalProjectActionLabels[index];
     });
 
