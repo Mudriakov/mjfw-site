@@ -94,6 +94,7 @@
   const nav = document.querySelector('.site-nav');
   const brand = document.querySelector('.brand');
   const avatar = document.querySelector('.portrait');
+  const skills = document.querySelector('.skills');
   const languageButtons = Array.from(document.querySelectorAll('[data-language]'));
   const emailLink = document.querySelector('.contact-links a[href^="mailto:"]');
   const vkLink = document.querySelector('.contact-links a[href^="https://vk.ru/"]');
@@ -110,14 +111,9 @@
   }
 
   function defaultLanguage() {
-    const languages = navigator.languages && navigator.languages.length
-      ? navigator.languages
-      : [navigator.language || ''];
-    for (const value of languages) {
-      const primary = String(value || '').toLowerCase().split('-')[0];
-      if (primary === 'ru' || primary === 'en') return primary;
-    }
-    return 'ru';
+    const browserLocale = navigator.language || (navigator.languages && navigator.languages[0]) || '';
+    const primary = String(browserLocale).toLowerCase().split('-')[0];
+    return primary === 'en' ? 'en' : 'ru';
   }
 
   function updateCookieNotice(language) {
@@ -161,6 +157,7 @@
     if (nav) nav.setAttribute('aria-label', isEnglish ? 'Main navigation' : 'Основная навигация');
     if (brand) brand.setAttribute('aria-label', isEnglish ? 'Ivan Mudriakov - Home' : 'Иван Мудряков - на главную');
     if (avatar) avatar.alt = document.title;
+    if (skills) skills.setAttribute('aria-label', isEnglish ? 'Technologies' : 'Технологии');
     if (emailLink) emailLink.setAttribute('aria-label', isEnglish ? 'Email - Send an email' : 'Email - Написать письмо');
     if (vkLink) vkLink.setAttribute('aria-label', (isEnglish ? 'VK' : 'ВКонтакте') + ' - @ivan_mudriakov');
     for (const button of languageButtons) {
