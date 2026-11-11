@@ -33,6 +33,10 @@
 
   const projectTranslations = [
     {
+      title: 'Erokha - AI VPS Administrator',
+      body: 'An AI assistant for VPS and Docker administration: monitors container status, sends Telegram alerts about failures and helps investigate issues.<br>The owner can use authorized server commands, while visitors can contact the developer through the bot’s reception.'
+    },
+    {
       title: 'Horo Telegram',
       body: 'Personalized horoscopes and AI-powered predictions about life, love, work, finances and the future. Daily, weekly, monthly and yearly forecasts, plus individual astrology readings in a Telegram Mini App.<br>The app also offers a referral program.'
     },
@@ -122,7 +126,7 @@
     });
     projectActionLinks.forEach((link, index) => {
       link.textContent = isEnglish
-        ? (link.href.includes('Mybookinguz_app_bot') ? 'Open MyBooking.uz' : link.href.includes('m8all_MJFW_bot') ? 'Open bot' : 'Open app')
+        ? (link.href.includes('Mybookinguz_app_bot') ? 'Open MyBooking.uz' : (link.href.includes('m8all_MJFW_bot') || link.href.includes('ai_vps_administrator_bot')) ? 'Open bot' : 'Open app')
         : originalProjectActionLabels[index];
     });
 
