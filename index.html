@@ -1,7 +1,26 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<!-- Yandex.Metrika counter -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0a101d" />
+  <meta name="description" content="Иван Мудряков - Fullstack-разработчик. Веб-приложения, Telegram Mini Apps, AI-инструменты и автоматизация бизнес-процессов." />
+  <meta name="keywords" content="Иван Мудряков, Mudriakov, Fullstack-разработчик, React, FastAPI, Telegram Mini Apps, AI, автоматизация, веб-разработка" />
+  <meta name="author" content="Ivan Mudriakov" />
+  <link rel="canonical" href="https://mudriakov.ru/" />
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="ru_RU" />
+  <meta property="og:title" content="Иван Мудряков - Fullstack-разработчик" />
+  <meta property="og:description" content="Веб-приложения, Telegram Mini Apps, AI-инструменты и автоматизация." />
+  <meta property="og:url" content="https://mudriakov.ru/" />
+  <meta property="og:image" content="https://mudriakov.ru/avatar.jpg" />
+  <title>Иван Мудряков - Fullstack-разработчик | Mudriakov</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Yandex.Metrika counter -->
 <script type="text/javascript" >
    (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
    m[i].l=1*new Date();
@@ -18,99 +37,101 @@
 </script>
 <noscript><div><img src="https://mc.yandex.ru/watch/100821330" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
 <!-- /Yandex.Metrika counter -->
-	<meta charset="UTF-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<meta name="description" content="Официальный сайт Ивана Мудрякова - MJFW. Telegram-боты, инструменты автоматизации и креативные технологии." />
-	<title>MJFW</title>
-	<link rel="icon" type="image/png" href="favicon.png" />
-	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
-	<script src="https://cdn.tailwindcss.com"></script>
   <style>
+    :root { color-scheme: dark; --bg: #0a101d; --surface: #111c2c; --border: rgba(170,197,230,.16); --text: #edf5ff; --muted: #a9bbd1; --accent: #65e2c2; }
+    * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
-    body {
-      font-family: 'Montserrat', sans-serif;
-      background: radial-gradient(circle at top, #0f172a, #1e293b 60%, #0f172a);
-      color: white;
-    }
-    .fade-in {
-      opacity: 0;
-      transform: translateY(20px);
-      animation: fadeIn 1s ease-out forwards;
-    }
-    @keyframes fadeIn {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-    header {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 0;
-    }
-    header img {
-      width: 100%;
-      height: auto;
-      max-height: none;
-      aspect-ratio: 16 / 4;
-      object-fit: cover;
-    }
-    @media (max-width: 768px) {
-      header img {
-        aspect-ratio: 16 / 6;
-      }
-      h1, h2 {
-        font-size: 1.75rem !important;
-      }
-      .text-lg {
-        font-size: 1rem !important;
-      }
-      .text-xl {
-        font-size: 1.125rem !important;
-      }
-    }
+    body { margin: 0; background: radial-gradient(ellipse at 85% 0%, rgba(41,104,118,.2), transparent 40%), radial-gradient(ellipse at 0% 36%, rgba(35,67,132,.18), transparent 45%), var(--bg); color: var(--text); font-family: 'Manrope', sans-serif; }
+    a { transition: color .2s ease, background .2s ease, border-color .2s ease, transform .2s ease; }
+    a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+    .shell { width: min(1120px, calc(100% - 40px)); margin-inline: auto; }
+    .site-nav { display: flex; align-items: center; justify-content: space-between; gap: 24px; min-height: 88px; border-bottom: 1px solid var(--border); }
+    .brand { color: var(--text); text-decoration: none; font-size: clamp(1rem, 2.3vw, 1.28rem); font-weight: 800; letter-spacing: .11em; }
+    .brand span { color: var(--accent); }
+    .nav-links { display: flex; align-items: center; flex-wrap: wrap; gap: 26px; }
+    .nav-links a { color: var(--muted); text-decoration: none; font-size: .88rem; font-weight: 700; }
+    .nav-links a:hover { color: var(--text); }
+    .hero { min-height: 570px; display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(250px, .7fr); gap: 54px; align-items: center; padding-block: 74px 94px; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 9px; color: var(--accent); font-size: .76rem; text-transform: uppercase; letter-spacing: .18em; font-weight: 800; }
+    .eyebrow:before { content: ''; width: 22px; height: 2px; background: currentColor; }
+    .hero h1 { margin: 22px 0; font-size: clamp(2.5rem, 5.4vw, 4.95rem); font-weight: 800; line-height: 1.13; letter-spacing: -.065em; }
+    .hero h1 em { font-style: normal; color: var(--accent); }
+    .hero p { color: var(--muted); max-width: 600px; font-size: 1.09rem; line-height: 1.88; }
+    .actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 33px; }
+    .action { display: inline-flex; justify-content: center; align-items: center; min-height: 50px; padding: 12px 23px; border-radius: 12px; font-size: .91rem; font-weight: 800; text-decoration: none; }
+    .action-primary { color: #061914; background: var(--accent); }
+    .action-primary:hover { background: #a6f4df; transform: translateY(-2px); }
+    .action-outline { color: var(--text); border: 1px solid var(--border); background: rgba(255,255,255,.035); }
+    .action-outline:hover { border-color: var(--accent); color: var(--accent); }
+    .portrait-wrap { position: relative; justify-self: center; width: min(100%, 340px); }
+    .portrait-wrap:before { content: ''; position: absolute; inset: -17px; border-radius: 33px; border: 1px solid rgba(101,226,194,.28); transform: rotate(6deg); }
+    .portrait { position: relative; width: 100%; aspect-ratio: 4/5; border-radius: 23px; object-fit: cover; border: 1px solid var(--border); box-shadow: 0 28px 75px rgba(0,0,0,.35); }
+    .content-section { padding-block: 72px; border-top: 1px solid var(--border); scroll-margin-top: 24px; }
+    .section-head { margin-bottom: 32px; }
+    .section-head h2, #projects h2 { font-size: clamp(1.75rem, 3.4vw, 2.55rem) !important; font-weight: 800; letter-spacing: -.045em; line-height: 1.2; }
+    #projects h2 { margin: 0 0 30px; border: 0; padding: 0; }
+    .section-head p { color: var(--muted); margin-top: 14px; line-height: 1.75; max-width: 750px; }
+    .about-body { color: var(--muted); max-width: 840px; line-height: 1.95; font-size: 1.05rem; }
+    .skills { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 25px; }
+    .skills span { background: rgba(101,226,194,.07); border: 1px solid rgba(101,226,194,.2); color: #c3f5e8; padding: 9px 14px; border-radius: 100px; font-size: .81rem; font-weight: 700; }
+    #projects { margin: 0 !important; padding-block: 72px; border-top: 1px solid var(--border); scroll-margin-top: 24px; }
+    #projects .grid { gap: 18px; }
+    #projects .grid > div { background: linear-gradient(145deg, rgba(24,38,58,.94), rgba(13,23,37,.96)); border: 1px solid var(--border); border-radius: 17px; padding: 25px; box-shadow: 0 8px 30px rgba(0,0,0,.1); transform: none; }
+    #projects .grid > div:hover { border-color: rgba(101,226,194,.48); transform: translateY(-3px); }
+    #projects .grid h3 { color: #eff8ff; font-size: 1.12rem; line-height: 1.55; letter-spacing: -.02em; margin-bottom: 12px; }
+    #projects .grid p { color: var(--muted); font-size: .91rem; line-height: 1.82; margin-bottom: 13px; }
+    #projects .grid a { color: var(--accent); text-underline-offset: 4px; font-size: .89rem; font-weight: 700; overflow-wrap: anywhere; }
+    #projects .grid a:hover { color: #c1ffed; }
+    .contact-links { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+    .contact-links a { display: flex; flex-direction: column; gap: 6px; min-width: 0; padding: 20px 23px; background: var(--surface); border: 1px solid var(--border); border-radius: 15px; text-decoration: none; color: var(--text); overflow-wrap: anywhere; }
+    .contact-links a:hover { border-color: var(--accent); transform: translateY(-2px); }
+    .contact-links strong { font-size: .75rem; text-transform: uppercase; letter-spacing: .14em; color: var(--accent); }
+    .contact-links span { font-size: .92rem; color: var(--muted); }
+    .site-footer { border-top: 1px solid var(--border); padding-block: 28px 45px; font-size: .82rem; color: var(--muted); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+    #cookie-notice { position: fixed; z-index: 50; bottom: 16px; left: 50%; transform: translateX(-50%); width: min(94%, 650px); padding: 15px 18px; color: var(--text); background: #192a3d; border: 1px solid var(--border); box-shadow: 0 14px 45px #0007; border-radius: 15px; display: flex; align-items: center; justify-content: space-between; gap: 15px; font-size: .8rem; }
+    #cookie-notice button { border: 0; border-radius: 9px; background: var(--accent); color: #061914; padding: 9px 15px; font-weight: 800; flex-shrink: 0; }
+    @media (max-width: 780px) { .site-nav { min-height: 76px; } .nav-links { gap: 13px; } .nav-links a { font-size: .75rem; } .hero { grid-template-columns: 1fr; min-height: auto; padding-block: 65px; gap: 44px; } .portrait-wrap { width: min(65%, 275px); } .hero h1 { font-size: clamp(2.6rem, 9vw, 4rem); } .content-section, #projects { padding-block: 52px; } .contact-links { grid-template-columns: 1fr; } }
+    @media (max-width: 480px) { .shell { width: calc(100% - 32px); } .site-nav { align-items: flex-start; flex-direction: column; justify-content: center; gap: 12px; padding-block: 17px; } .hero { padding-block: 53px; } .hero h1 { font-size: 2.65rem; } .hero p { font-size: .99rem; } .portrait-wrap { width: min(75%, 250px); } #projects .grid > div { padding: 19px; } #cookie-notice { flex-direction: column; align-items: stretch; } }
+    @media (prefers-reduced-motion: reduce) { *, *:before, *:after { scroll-behavior: auto !important; transition-duration: .01ms !important; } }
   </style>
-
-  <meta name="keywords" content="MJFW, Telegram боты, Иван Мудряков, Python разработчик, автоматизация, фриланс, Telegram API, веб-разработка" />
-  <meta name="author" content="Ivan Mudriakov" />
-  <meta property="og:title" content="MJFW - Mr. John Freeman Works" />
-  <meta property="og:description" content="Telegram-боты, автоматизация и инструменты от Ивана Мудрякова." />
-  <meta property="og:image" content="https://mjfw.ru/banner.png" />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://mjfw.ru/" />
-
 </head>
-<body class="text-white">
-  <header class="text-center">
-    <img src="banner.png" alt="Баннер MJFW" class="fade-in" />
-    <p class="text-md text-gray-300 mt-1">Mr. John Freeman Works - Автоматизация, парсинг, веб-сервисы и API-платформы</p>
-  </header>
+<body>
+  <div class="shell">
+    <nav class="site-nav" aria-label="Основная навигация">
+      <a class="brand" href="/" aria-label="Мудряков - на главную">MUDRIAKOV<span>.RU</span></a>
+      <div class="nav-links">
+        <a href="#about">Обо мне</a>
+        <a href="#projects">Проекты</a>
+        <a href="#contact">Контакты</a>
+      </div>
+    </nav>
 
-  <main class="px-4 sm:px-6 max-w-5xl mx-auto fade-in">
-<section id="about" class="my-16">
-  <h2 class="text-3xl font-bold mb-4 border-b pb-2">Обо мне</h2>
-  <div class="flex flex-col items-center">
-    <!-- Фото по центру -->
-    <img src="avatar.jpg" alt="Иван Мудряков" class="w-36 h-36 rounded-full shadow-lg object-cover border-4 border-gray-700 mb-6">
-    <!-- Текст по центру, но ограниченная ширина для читаемости -->
-    <div class="max-w-2xl text-center">
-      <span class="block font-semibold text-white text-lg sm:text-xl md:text-2xl mb-2">Иван Мудряков</span>
-      <span class="block font-medium text-green-400 mb-4">Fullstack-разработчик</span>
-      <p class="text-gray-300 text-base sm:text-lg md:text-xl leading-relaxed sm:leading-loose tracking-normal">
-        Привет! Меня зовут Иван, я Fullstack-разработчик с опытом более 5 лет.<br><br>
-        Занимаюсь созданием Telegram-ботов и мини-приложений, подключением внешних сервисов и автоматизацией процессов. В работе использую Python, FastAPI, JavaScript, SQL и Docker. Практикую стек Aiogram/Telethon, SQLAlchemy/Alembic, Celery/Redis, Docker/Compose. Уверенно работаю с REST API, парсингом и интеграциями.<br><br>
-        Ответственно подхожу к каждому проекту: всегда на связи, соблюдаю сроки и предлагаю решения под вашу задачу. От обсуждения идей до запуска и поддержки продукта - всё четко, прозрачно и без лишней сложности.<br><br>
-        Давайте обсудим ваш проект и найдём лучшее решение!<br><br>
-        <span class="block text-gray-400">Страница на: <a href="https://kwork.ru/user/ivan_mudriakov" class="text-blue-400 underline">kwork.ru</a></span>
-      </p>
-    </div>
-  </div>
-</section>
+    <header class="hero">
+      <div>
+        <span class="eyebrow">Иван Мудряков · Fullstack-разработчик</span>
+        <h1>Создаю цифровые продукты <em>под Ваши задачи.</em></h1>
+        <p>Веб-приложения, Telegram Mini Apps, AI-инструменты и автоматизация процессов. От архитектуры и разработки до запуска и поддержки.</p>
+        <div class="actions">
+          <a class="action action-primary" href="#projects">Посмотреть проекты</a>
+          <a class="action action-outline" href="#contact">Связаться со мной</a>
+        </div>
+      </div>
+      <div class="portrait-wrap"><img class="portrait" src="avatar.jpg" alt="Иван Мудряков" width="340" height="425" fetchpriority="high"></div>
+    </header>
 
+    <main>
+      <section id="about" class="content-section">
+        <div class="section-head">
+          <span class="eyebrow">О разработчике</span>
+          <h2>Иван Мудряков</h2>
+        </div>
+        <p class="about-body">Я Fullstack-разработчик. Создаю веб-сервисы, Telegram-ботов и мини-приложения, разрабатываю API, интегрирую внешние системы и автоматизирую рабочие процессы. Работаю как с интерфейсами, так и с серверной архитектурой, базами данных и инфраструктурой.</p>
+        <div class="skills" aria-label="Технологии">
+          <span>Python</span><span>FastAPI</span><span>React</span><span>TypeScript</span><span>PostgreSQL</span><span>Docker</span><span>Telegram Mini Apps</span><span>AI-интеграции</span>
+        </div>
+      </section>
 
-    <section id="projects" class="my-16">
+      <section id="projects" class="my-16">
       <h2 class="text-3xl font-bold mb-4 border-b pb-2">Проекты</h2>
       <div class="grid md:grid-cols-2 gap-6">
 	<div class="bg-gray-800 rounded-xl p-4 shadow-md hover:scale-[1.02] transition">
@@ -184,34 +205,35 @@
       </div>
     </section>
 
-    <section id="contact" class="my-16">
-      <h2 class="text-3xl font-bold mb-4 border-b pb-2">Контакты</h2>
-      <ul class="text-lg space-y-2">
-        <li><strong>Telegram:</strong> <a href="https://t.me/ivan_mudriakov" class="text-blue-400">@ivan_mudriakov</a></li>
-        <li><strong>Email:</strong> <a href="mailto:mr.john.freeman.works.rus@gmail.com" class="text-blue-400">mr.john.freeman.works.rus@gmail.com</a></li>
-        <li><strong>GitHub:</strong> <a href="https://github.com/mrJohnFreemanDev" class="text-blue-400">@mrJohnFreemanDev</a></li>
-        <li><strong>X:</strong> <a href="https://x.com/Mr_John_Freeman" class="text-blue-400">@Mr_John_Freeman</a></li>
-        <li><strong>Instagram:</strong> <a href="https://www.instagram.com/ivan_mudriakov/" class="text-blue-400">@ivan_mudriakov</a></li>
-      </ul>
-    </section>
-  </main>
-
-  <footer class="text-center py-8 text-sm text-gray-500">
-    Сделано с умом и вниманием Иван Мудряков - Mr. John Freeman Works. Автоматизация, парсинг, веб-сервисы.<br>
-  </footer>
-
+      <section id="contact" class="content-section">
+        <div class="section-head">
+          <span class="eyebrow">На связи</span>
+          <h2>Контакты</h2>
+          <p>Опишите задачу, и мы сможем определить подходящий формат реализации.</p>
+        </div>
+        <div class="contact-links">
+          <a href="https://t.me/ivan_mudriakov" target="_blank" rel="noopener noreferrer"><strong>Telegram</strong><span>@ivan_mudriakov</span></a>
+          <a href="mailto:mr.john.freeman.works.rus@gmail.com"><strong>Email</strong><span>Написать письмо</span></a>
+          <a href="https://github.com/Mudriakov" target="_blank" rel="noopener noreferrer"><strong>GitHub</strong><span>@Mudriakov</span></a>
+          <a href="https://x.com/Mr_John_Freeman" target="_blank" rel="noopener noreferrer"><strong>X</strong><span>Профиль в X</span></a>
+          <a href="https://www.instagram.com/ivan_mudriakov/" target="_blank" rel="noopener noreferrer"><strong>Instagram</strong><span>@ivan_mudriakov</span></a>
+        </div>
+      </section>
+    </main>
+    <footer class="site-footer">
+      <span>© <span id="year">2026</span> Иван Мудряков</span>
+      <span>Веб-разработка · AI · Автоматизация</span>
+    </footer>
+  </div>
   <script>
-    if (!localStorage.getItem("cookiesAccepted")) {
-      const notice = document.createElement("div");
-      notice.className = "fixed bottom-0 w-full bg-gray-800 text-white text-sm text-center p-4 z-50";
-      notice.innerHTML = `
-        Этот сайт использует cookies для улучшения работы.
-        <button id="acceptCookies" class="ml-2 bg-blue-500 px-3 py-1 rounded hover:bg-blue-600">Принять</button>
-      `;
+    document.getElementById('year').textContent = new Date().getFullYear();
+    if (!localStorage.getItem('cookiesAccepted')) {
+      const notice = document.createElement('div');
+      notice.id = 'cookie-notice';
+      notice.innerHTML = '<span>Сайт использует cookies для улучшения работы.</span><button type="button" id="acceptCookies">Принять</button>';
       document.body.appendChild(notice);
-
-      document.getElementById("acceptCookies").addEventListener("click", function () {
-        localStorage.setItem("cookiesAccepted", true);
+      document.getElementById('acceptCookies').addEventListener('click', () => {
+        localStorage.setItem('cookiesAccepted', 'true');
         notice.remove();
       });
     }
