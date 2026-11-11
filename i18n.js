@@ -37,40 +37,8 @@
       body: 'Find and book hotels across Uzbekistan directly in Telegram.<br><span class="text-gray-500">Stack:</span><br>React 18 + TypeScript • Vite (SWC) • TailwindCSS • shadcn/ui • Framer Motion • Axios • Telegram WebApp SDK<br>Node.js (Express) • Nginx (reverse proxy, caching, SSL, CORS) • Partners API (MyBooking.uz)<br><span class="text-gray-500 text-sm">Open the app and try it right now!</span>'
     },
     {
-      title: 'Telegram Business Card MINI APP',
-      body: 'A modern business-card mini app for Telegram.<br>Demo features include an interactive calculator, playful buttons and a practical showcase of Telegram WebApp capabilities.<br>Responsive layouts, smooth animations and clean code demonstrate how to present projects or services directly inside Telegram.<br>All logic and event handling were built from scratch.<br><span class="text-gray-500 text-sm">Launch the app from the bot and try it now!</span>'
-    },
-    {
-      title: 'Crypto Bot',
-      body: 'Real-time cryptocurrency prices and price history powered by Binance.'
-    },
-    {
-      title: 'Weather Bot',
-      body: 'Weather forecasts by city, with emoji and detailed descriptions.'
-    },
-    {
-      title: 'Moderation Bot',
-      body: 'A Telegram chat moderation bot with word filters and temporary bans.'
-    },
-    {
-      title: 'Russian News',
-      body: 'An RSS bot for posting Russian-language news to Telegram channels.'
-    },
-    {
-      title: 'English News',
-      body: 'A bot for publishing English-language news on Telegram.'
-    },
-    {
       title: 'Magic 8 Ball',
       body: 'A Telegram fortune-telling bot with voice replies and emoji.'
-    },
-    {
-      title: 'M/W Show Parser',
-      body: 'A script that extracts full episodes of the TV show “Muzhskoye / Zhenskoye” from 1tv.ru, excluding clips and fragments while preserving titles and descriptions.'
-    },
-    {
-      title: 'Telegram ID Logger',
-      body: 'A universal script that instantly retrieves <b>chat_id</b> and <b>user_id</b>, and logs activity in Telegram chats, groups and channels.<br>Add a bot token, start the script and forward a message to see IDs and events in the logs.'
     }
   ];
 
@@ -85,8 +53,10 @@
       };
     });
 
-  const botLinks = Array.from(document.querySelectorAll('#projects a'))
-    .filter(link => link.textContent.trim() === 'Бот в действии');
+  const projectActionLinks = Array.from(document.querySelectorAll('#projects .grid > div'))
+    .map(card => card.querySelector('a'))
+    .filter(Boolean);
+  const originalProjectActionLabels = projectActionLinks.map(link => link.textContent);
   const metaDescription = document.querySelector('meta[name="description"]');
   const ogTitle = document.querySelector('meta[property="og:title"]');
   const ogDescription = document.querySelector('meta[property="og:description"]');
@@ -142,7 +112,11 @@
         card.description.innerHTML = card.originalDescription;
       }
     });
-    botLinks.forEach(link => { link.textContent = isEnglish ? 'Live bot' : 'Бот в действии'; });
+    projectActionLinks.forEach((link, index) => {
+      link.textContent = isEnglish
+        ? (index === 0 ? 'Open MyBooking.uz' : 'Open bot')
+        : originalProjectActionLabels[index];
+    });
 
     // The browser tab title must contain the localized personal name only.
     document.title = isEnglish ? 'Ivan Mudriakov' : 'Иван Мудряков';
