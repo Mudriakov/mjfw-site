@@ -33,6 +33,10 @@
 
   const projectTranslations = [
     {
+      title: 'MinuetAI | AI Music',
+      body: 'A Telegram Mini App for creating music and songs with artificial intelligence. Turn ideas and text prompts into complete tracks with music and vocals right inside Telegram.<br>Create your own songs, explore musical styles and listen to the results in the app.'
+    },
+    {
       title: 'Erokha - AI VPS Administrator',
       body: 'An AI assistant for VPS and Docker administration: monitors container status, sends Telegram alerts about failures and helps investigate issues.<br>The owner can use authorized server commands, while visitors can contact the developer through the bot’s reception.'
     },
