@@ -162,6 +162,12 @@
       .contact-links .contact-text span { font-size: .75rem; }
       .site-footer { line-height: 1.65; }
     }
+    @media (max-width: 780px) {
+      /* Move development badges below the project links on narrow screens. */
+      #projects .project-status { top: auto; right: 16px; bottom: 14px; }
+      #projects .grid > .shuhov-card,
+      #projects .grid > .minuetai-card { padding-bottom: 58px; }
+    }
     @media (hover: none) {
       #projects .grid > div:hover, .contact-links a:hover { transform: none; }
     }
