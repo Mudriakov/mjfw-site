@@ -87,10 +87,10 @@
     #projects .grid > div:hover { border-color: rgba(101,226,194,.48); transform: translateY(-3px); }
     #projects .grid h3 { color: #eff8ff; font-size: 1.12rem; line-height: 1.55; letter-spacing: -.02em; margin-bottom: 12px; }
     /* MyBooking avatar stays inside the existing card without changing the grid. */
-    #projects .mybooking-card { position: relative; }
-    #projects .mybooking-avatar { position: absolute; top: 25px; left: 25px; width: 40px; height: 40px; max-width: none; border-radius: 50%; object-fit: cover; border: 1px solid rgba(170,197,230,.23); }
-    #projects .mybooking-card > h3 { padding-left: 52px; min-height: 40px; display: flex; align-items: center; }
-    @media (max-width: 480px) { #projects .mybooking-avatar { top: 20px; left: 20px; } }
+    #projects .mybooking-card, #projects .magicball-card { position: relative; }
+    #projects .mybooking-avatar, #projects .magicball-avatar { position: absolute; top: 25px; left: 25px; width: 40px; height: 40px; max-width: none; border-radius: 50%; object-fit: cover; border: 1px solid rgba(170,197,230,.23); }
+    #projects .mybooking-card > h3, #projects .magicball-card > h3 { padding-left: 52px; min-height: 40px; display: flex; align-items: center; }
+    @media (max-width: 480px) { #projects .mybooking-avatar, #projects .magicball-avatar { top: 20px; left: 20px; } }
     #projects .grid p { color: var(--muted); font-size: .91rem; line-height: 1.82; margin-bottom: 13px; }
     #projects .grid a { color: var(--accent); text-underline-offset: 4px; font-size: .89rem; font-weight: 700; overflow-wrap: anywhere; }
     #projects .grid a:hover { color: #c1ffed; }
@@ -221,9 +221,10 @@
             </p>
             <a href="https://t.me/Mybookinguz_app_bot?startapp" target="_blank" rel="noopener noreferrer" class="text-blue-400 underline">Открыть MyBooking.uz</a>
           </div>
-          <div class="bg-gray-800 rounded-xl p-4 shadow-md hover:scale-[1.02] transition">
-            <h3 class="text-xl font-semibold">Шар Судьбы</h3>
-            <p class="text-gray-400">Бот-предсказатель в Telegram с голосовыми ответами и эмоджи.</p>
+          <div class="bg-gray-800 rounded-xl p-4 shadow-md hover:scale-[1.02] transition magicball-card">
+            <img src="/magic8-avatar.png" alt="Магический шар 8" class="magicball-avatar" width="40" height="40" loading="lazy" decoding="async" />
+            <h3 class="text-xl font-semibold">Магический шар 8</h3>
+            <p class="text-gray-400">Telegram-бот с мистическими предсказаниями. Задайте вопрос, на который можно ответить «да» или «нет», и получите таинственный ответ Магического шара 8.<br>В боте также предусмотрена партнёрская программа.</p>
             <a href="https://t.me/m8all_MJFW_bot" target="_blank" rel="noopener noreferrer" class="text-blue-400 underline">Открыть бота</a>
           </div>
         </div>

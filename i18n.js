@@ -38,7 +38,7 @@
     },
     {
       title: 'Magic 8 Ball',
-      body: 'A Telegram fortune-telling bot with voice replies and emoji.'
+      body: 'A Telegram bot with mystical predictions. Ask a question that can be answered with “yes” or “no” and receive a mysterious answer from the Magic 8 Ball.<br>The bot also features a referral program.'
     }
   ];
 
