@@ -105,6 +105,59 @@
     #cookie-notice button { border: 0; border-radius: 9px; background: var(--accent); color: #061914; padding: 9px 15px; font-weight: 800; flex-shrink: 0; }
     @media (max-width: 780px) { .site-nav { min-height: 76px; flex-wrap: wrap; padding-block: 13px; gap: 12px; } .brand img { width: 32px; height: 32px; } .nav-links { order: 3; width: 100%; margin-left: 0; justify-content: center; border-top: 1px solid var(--border); padding-top: 13px; } .nav-links { gap: 13px; } .nav-links a { font-size: .75rem; } .hero { grid-template-columns: 1fr; min-height: auto; padding-block: 65px; gap: 44px; } .portrait-wrap { width: min(65%, 275px); } .hero h1 { font-size: clamp(2.6rem, 9vw, 4rem); } .content-section, #projects { padding-block: 52px; } .contact-links { grid-template-columns: 1fr; } }
     @media (max-width: 480px) { .shell { width: calc(100% - 32px); } .site-nav { align-items: center; flex-direction: row; gap: 12px; padding-block: 14px; } .brand { font-size: .91rem; } .brand img { width: 28px; height: 28px; } .language-switch { gap: 1px; padding: 3px; } .language-switch button { min-width: 36px; height: 29px; padding: 0 7px; } .hero { padding-block: 53px; } .hero h1 { font-size: 2.65rem; } .hero p { font-size: .99rem; } .portrait-wrap { width: min(75%, 250px); } #projects .grid > div { padding: 19px; } #cookie-notice { flex-direction: column; align-items: stretch; } }
+    /* Responsive layout: avoid clipped content and cramped navigation. */
+    html { scroll-padding-top: 20px; }
+    body { min-width: 0; overflow-x: clip; }
+    img, svg { max-width: 100%; }
+    .shell, main, section, .hero > *, #projects .grid > div { min-width: 0; }
+    .site-nav { column-gap: clamp(12px, 2vw, 24px); }
+    .brand { flex-shrink: 0; }
+    .nav-links { flex-wrap: nowrap; gap: clamp(12px, 1.8vw, 26px); }
+    .nav-links a { white-space: nowrap; }
+    .hero { min-height: 0; grid-template-columns: minmax(0, 1.25fr) minmax(250px, .75fr); column-gap: clamp(30px, 5vw, 70px); }
+    .hero h1 { overflow-wrap: break-word; }
+    #projects .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    #projects .grid > div { display: flex; flex-direction: column; align-items: flex-start; }
+    #projects .grid > div p { flex-grow: 1; overflow-wrap: anywhere; }
+    #projects .grid > div > a { display: inline-flex; align-items: center; min-height: 44px; margin-top: 10px; }
+    .contact-links a { min-width: 0; }
+    .contact-text { overflow-wrap: anywhere; }
+    @media (max-width: 1024px) and (min-width: 781px) {
+      .site-nav { flex-wrap: wrap; padding-block: 14px; }
+      .nav-links { order: 3; justify-content: center; flex-basis: 100%; border-top: 1px solid var(--border); padding-top: 12px; margin-left: 0; }
+      .hero { padding-block: 58px 68px; }
+    }
+    @media (max-width: 780px) {
+      .nav-links { flex-wrap: wrap; }
+      .hero { grid-template-columns: minmax(0, 1fr); padding-block: 52px 68px; gap: 34px; }
+      .portrait-wrap { width: min(62%, 270px); }
+      .hero h1 { font-size: clamp(2.2rem, 7.5vw, 3.7rem); }
+      .hero p { font-size: 1rem; line-height: 1.75; }
+      #projects .grid { grid-template-columns: minmax(0, 1fr); }
+      .contact-links { grid-template-columns: minmax(0, 1fr); }
+    }
+    @media (max-width: 480px) {
+      .shell { width: calc(100% - 28px); }
+      .brand { gap: 8px; font-size: clamp(.82rem, 4vw, 1rem); }
+      .brand img { width: 30px; height: 30px; }
+      .nav-links { gap: clamp(12px, 4vw, 20px); }
+      .nav-links a { font-size: .78rem; }
+      .hero { padding-block: 40px 54px; gap: 32px; }
+      .hero h1 { font-size: clamp(2rem, 9vw, 2.75rem); line-height: 1.15; }
+      .hero p { font-size: .96rem; }
+      .eyebrow { font-size: .65rem; letter-spacing: .11em; }
+      .actions { display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; }
+      .action { width: 100%; min-height: 48px; text-align: center; }
+      .portrait-wrap { width: min(72%, 245px); }
+      .content-section, #projects { padding-block: 44px; }
+      #projects .grid > div { padding: 20px; }
+      .contact-links a { gap: 12px; }
+      .contact-links .contact-text span { font-size: .75rem; }
+      .site-footer { line-height: 1.65; }
+    }
+    @media (hover: none) {
+      #projects .grid > div:hover, .contact-links a:hover { transform: none; }
+    }
     @media (prefers-reduced-motion: reduce) { *, *:before, *:after { scroll-behavior: auto !important; transition-duration: .01ms !important; } }
   </style>
 </head>
@@ -149,78 +202,26 @@
       </section>
 
       <section id="projects" class="my-16">
-      <h2 class="text-3xl font-bold mb-4 border-b pb-2" data-i18n="projectsHeading">Проекты</h2>
-      <div class="grid md:grid-cols-2 gap-6">
-	<div class="bg-gray-800 rounded-xl p-4 shadow-md hover:scale-[1.02] transition">
-    	  <h3 class="text-xl font-semibold">MyBooking.uz Telegram MINI-APP</h3>
-    	  <p class="text-gray-400">
-          Быстрый поиск и бронирование отелей по Узбекистану прямо в Telegram.<br>
-		  <span class="text-gray-500">Стек:</span><br>
-		  React 18 + TypeScript • Vite (SWC) • TailwindCSS • shadcn/ui • Framer Motion • Axios • Telegram WebApp SDK<br>
-		  Node.js (Express) • Nginx (reverse proxy, кеш, SSL, CORS) • Partners API (MyBooking.uz)<br>
-          <span class="text-gray-500 text-sm">Открывайте приложение и тестируйте прямо сейчас!</span>
-    	</p>
-    <a href="https://t.me/Mybookinguz_app_bot?startapp" class="text-blue-400 underline">MyBooking.uz</a>
-    </div>
-	<div class="bg-gray-800 rounded-xl p-4 shadow-md hover:scale-[1.02] transition">
-    	  <h3 class="text-xl font-semibold">Telegram Визитка MINI-APP</h3>
-    	  <p class="text-gray-400">
-          Современное мини-приложение-визитка для Telegram.<br>
-          Демо-функции: интерактивный калькулятор, забавные кнопки и наглядная демонстрация работы Telegram WebApp.<br>
-          Удобная адаптивная вёрстка, плавные анимации, чистый код - отличный пример, как можно оформить свои проекты или услуги для клиентов прямо внутри Telegram.<br>
-          Вся логика и обработка событий реализована с нуля.<br>
-          <span class="text-gray-500 text-sm">Открывайте приложение из бота и тестируйте прямо сейчас!</span>
-    	</p>
-    <a href="https://t.me/Ivan_Mudriakov_MyBK_bot?startapp" class="text-blue-400 underline">MINI-APP</a>
-    </div>
-        <div class="bg-gray-800 rounded-xl p-4 shadow-md hover:scale-[1.02] transition">
-          <h3 class="text-xl font-semibold">Крипто-Бот</h3>
-          <p class="text-gray-400">Цены и история криптовалют в реальном времени с Binance.</p>
-          <a href="https://github.com/Mudriakov/cryptoCurrencyMJFWbot" class="text-blue-400 underline">GitHub</a>
-          <div><a href="https://t.me/CryptoCurrencyMJFWbot" class="text-blue-400 underline">Бот в действии</a></div>
+        <h2 class="text-3xl font-bold mb-4 border-b pb-2" data-i18n="projectsHeading">Проекты</h2>
+        <div class="grid md:grid-cols-2 gap-6">
+          <div class="bg-gray-800 rounded-xl p-4 shadow-md hover:scale-[1.02] transition">
+            <h3 class="text-xl font-semibold">MyBooking.uz Telegram MINI-APP</h3>
+            <p class="text-gray-400">
+              Быстрый поиск и бронирование отелей по Узбекистану прямо в Telegram.<br>
+              <span class="text-gray-500">Стек:</span><br>
+              React 18 + TypeScript • Vite (SWC) • TailwindCSS • shadcn/ui • Framer Motion • Axios • Telegram WebApp SDK<br>
+              Node.js (Express) • Nginx (reverse proxy, кеш, SSL, CORS) • Partners API (MyBooking.uz)<br>
+              <span class="text-gray-500 text-sm">Открывайте приложение и тестируйте прямо сейчас!</span>
+            </p>
+            <a href="https://t.me/Mybookinguz_app_bot?startapp" target="_blank" rel="noopener noreferrer" class="text-blue-400 underline">Открыть MyBooking.uz</a>
+          </div>
+          <div class="bg-gray-800 rounded-xl p-4 shadow-md hover:scale-[1.02] transition">
+            <h3 class="text-xl font-semibold">Шар Судьбы</h3>
+            <p class="text-gray-400">Бот-предсказатель в Telegram с голосовыми ответами и эмоджи.</p>
+            <a href="https://t.me/m8all_MJFW_bot" target="_blank" rel="noopener noreferrer" class="text-blue-400 underline">Открыть бота</a>
+          </div>
         </div>
-        <div class="bg-gray-800 rounded-xl p-4 shadow-md hover:scale-[1.02] transition">
-          <h3 class="text-xl font-semibold">Погодный Бот</h3>
-          <p class="text-gray-400">Прогноз погоды по городам с эмоджи и описанием.</p>
-          <a href="https://github.com/Mudriakov/weatherMJFWbot" class="text-blue-400 underline">GitHub</a>
-	  <div><a href="https://t.me/WeatherMJFbot" class="text-blue-400 underline">Бот в действии</a></div>
-        </div>
-        <div class="bg-gray-800 rounded-xl p-4 shadow-md hover:scale-[1.02] transition">
-          <h3 class="text-xl font-semibold">Бот-Модератор</h3>
-          <p class="text-gray-400">Бот для модерирования чатов Telegram с фильтром слов и временными банами.</p>
-          <a href="https://github.com/Mudriakov/chatMJFWbot" class="text-blue-400 underline">GitHub</a>
-        </div>
-        <div class="bg-gray-800 rounded-xl p-4 shadow-md hover:scale-[1.02] transition">
-          <h3 class="text-xl font-semibold">Новости РФ</h3>
-          <p class="text-gray-400">RSS-бот на русском языке для Telegram-каналов.</p>
-          <a href="https://github.com/Mudriakov/newsMJFWbot" class="text-blue-400 underline">GitHub</a>
-        </div>
-        <div class="bg-gray-800 rounded-xl p-4 shadow-md hover:scale-[1.02] transition">
-          <h3 class="text-xl font-semibold">Новости EN</h3>
-          <p class="text-gray-400">Бот на английском языке для публикации новостей в Telegram.</p>
-          <a href="https://github.com/Mudriakov/ENnewsMJFWbot" class="text-blue-400 underline">GitHub</a>
-        </div>
-	<div class="bg-gray-800 rounded-xl p-4 shadow-md hover:scale-[1.02] transition">
-  	  <h3 class="text-xl font-semibold">Шар Судьбы</h3>
-          <p class="text-gray-400">Бот-предсказатель в Telegram с голосовыми ответами и эмоджи.</p>
-          <a href="https://github.com/Mudriakov/m8all_MJFW_bot" class="text-blue-400 underline">GitHub</a>
-	  <div><a href="https://t.me/m8all_MJFW_bot" class="text-blue-400 underline">Бот в действии</a></div>
-        </div>
-	<div class="bg-gray-800 rounded-xl p-4 shadow-md hover:scale-[1.02] transition">
-  	  <h3 class="text-xl font-semibold">Парсер M/W шоу</h3>
-          <p class="text-gray-400">Скрипт для извлечения полных выпусков шоу «Мужское / Женское» с сайта 1tv.ru. Исключает вырезки и фрагменты, сохраняет заголовки и описания.</p>
-          <a href="https://github.com/Mudriakov/M.W.show.parserMJFW" class="text-blue-400 underline">GitHub</a>
-        </div>
-	<div class="bg-gray-800 rounded-xl p-4 shadow-md hover:scale-[1.02] transition">
-  	  <h3 class="text-xl font-semibold">Telegram ID Logger</h3>
-  	  <p class="text-gray-400">
-          Универсальный скрипт для мгновенного определения <b>chat_id</b>, <b>user_id</b> и подробного логирования всей активности в любом чате, группе или канале Telegram.<br>
-          Достаточно вставить токен бота, запустить и переслать сообщение - все ID и события появятся в логе.
-         </p>
-  	 <a href="https://github.com/Mudriakov/Get_MyTG_id_byMJFW" class="text-blue-400 underline">GitHub</a>
-	</div>
-      </div>
-    </section>
+      </section>
 
       <section id="contact" class="content-section">
         <div class="section-head">
