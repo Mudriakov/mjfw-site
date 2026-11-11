@@ -86,6 +86,11 @@
     #projects .grid > div { background: linear-gradient(145deg, rgba(24,38,58,.94), rgba(13,23,37,.96)); border: 1px solid var(--border); border-radius: 17px; padding: 25px; box-shadow: 0 8px 30px rgba(0,0,0,.1); transform: none; }
     #projects .grid > div:hover { border-color: rgba(101,226,194,.48); transform: translateY(-3px); }
     #projects .grid h3 { color: #eff8ff; font-size: 1.12rem; line-height: 1.55; letter-spacing: -.02em; margin-bottom: 12px; }
+    /* MyBooking avatar stays inside the existing card without changing the grid. */
+    #projects .mybooking-card { position: relative; }
+    #projects .mybooking-avatar { position: absolute; top: 25px; left: 25px; width: 40px; height: 40px; max-width: none; border-radius: 50%; object-fit: cover; border: 1px solid rgba(170,197,230,.23); }
+    #projects .mybooking-card > h3 { padding-left: 52px; min-height: 40px; display: flex; align-items: center; }
+    @media (max-width: 480px) { #projects .mybooking-avatar { top: 20px; left: 20px; } }
     #projects .grid p { color: var(--muted); font-size: .91rem; line-height: 1.82; margin-bottom: 13px; }
     #projects .grid a { color: var(--accent); text-underline-offset: 4px; font-size: .89rem; font-weight: 700; overflow-wrap: anywhere; }
     #projects .grid a:hover { color: #c1ffed; }
@@ -204,7 +209,8 @@
       <section id="projects" class="my-16">
         <h2 class="text-3xl font-bold mb-4 border-b pb-2" data-i18n="projectsHeading">Проекты</h2>
         <div class="grid md:grid-cols-2 gap-6">
-          <div class="bg-gray-800 rounded-xl p-4 shadow-md hover:scale-[1.02] transition">
+          <div class="bg-gray-800 rounded-xl p-4 shadow-md hover:scale-[1.02] transition mybooking-card">
+            <img src="/mybooking-avatar.png" alt="MyBooking" class="mybooking-avatar" width="40" height="40" loading="lazy" decoding="async" />
             <h3 class="text-xl font-semibold">MyBooking.uz Telegram MINI-APP</h3>
             <p class="text-gray-400">
               Быстрый поиск и бронирование отелей по Узбекистану прямо в Telegram.<br>
