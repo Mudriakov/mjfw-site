@@ -34,7 +34,7 @@
     const root = document.createElement("section");
     root.id = "erokha-chat";
     root.innerHTML = [
-      '<div class="erokha-panel" role="dialog" aria-modal="false" aria-labelledby="ero-title" id="ero-panel">',
+      '<div class="erokha-panel" role="dialog" aria-modal="false" aria-labelledby="ero-title" id="ero-panel" aria-hidden="true" inert>',
       '<div class="erokha-head"><img alt="" src="/assets/images/erokha-avatar.png" width="42" height="42">',
       '<div class="erokha-identity"><strong id="ero-title" data-ero="title"></strong><small data-ero="subtitle"></small></div>',
       '<button type="button" class="erokha-icon erokha-close">×</button></div>',
@@ -149,11 +149,15 @@
     }
     function close() {
       open=false; root.classList.remove("is-open","contact-open");
+      get(".erokha-panel").setAttribute("inert","");
+      get(".erokha-panel").setAttribute("aria-hidden","true");
       launcher.setAttribute("aria-expanded","false");
       if (poll) clearInterval(poll); poll=null; launcher.focus();
     }
     launcher.addEventListener("click",()=>{
       open=true; root.classList.add("is-open"); launcher.setAttribute("aria-expanded","true");
+      get(".erokha-panel").removeAttribute("inert");
+      get(".erokha-panel").setAttribute("aria-hidden","false");
       inform(enabled?"loading":"offline");
       if (enabled) { refresh(); if (!poll) poll=setInterval(refresh,12000); input.focus(); }
       else get(".erokha-direct").focus();

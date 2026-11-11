@@ -37,7 +37,7 @@
 </script>
 <noscript><div><img src="https://mc.yandex.ru/watch/100821330" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
 <!-- /Yandex.Metrika counter -->
-  <link rel="stylesheet" href="/assets/css/erokha-chat.css?v=1" />
+  <link rel="stylesheet" href="/assets/css/erokha-chat.css?v=2" />
   <style>
     :root { color-scheme: dark; --bg: #0a101d; --surface: #111c2c; --border: rgba(170,197,230,.16); --text: #edf5ff; --muted: #a9bbd1; --accent: #65e2c2; }
     * { box-sizing: border-box; }
@@ -172,6 +172,70 @@
     @media (hover: none) {
       #projects .grid > div:hover, .contact-links a:hover { transform: none; }
     }
+
+    /* Liquid-glass surface treatment: keep content and contrast unchanged. */
+    body { background:
+      radial-gradient(ellipse at 82% 4%, rgba(65,177,191,.24), transparent 39%),
+      radial-gradient(ellipse at 8% 40%, rgba(49,103,183,.23), transparent 48%),
+      radial-gradient(ellipse at 93% 79%, rgba(66,161,144,.13), transparent 38%),
+      linear-gradient(165deg,#0a101d 0%,#101c30 54%,#0a101d 100%); }
+    .site-nav, #projects .grid > div, .contact-links a, .action-outline, .language-switch, #cookie-notice {
+      -webkit-backdrop-filter: blur(18px) saturate(155%);
+      backdrop-filter: blur(18px) saturate(155%);
+    }
+    .site-nav {
+      margin-top: 14px; padding-inline: clamp(14px,2vw,24px); border: 1px solid rgba(205,231,255,.21);
+      border-radius: 21px;
+      background: linear-gradient(115deg,rgba(247,253,255,.105),rgba(75,124,153,.055) 47%,rgba(15,29,48,.52));
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.16),0 15px 40px rgba(0,0,0,.12);
+    }
+    #projects .grid > div {
+      background: linear-gradient(130deg,rgba(255,255,255,.105) 0%,rgba(64,113,146,.06) 30%,rgba(13,28,47,.6) 100%);
+      border-color: rgba(190,224,252,.24);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.15),inset 1px 0 0 rgba(255,255,255,.045),0 15px 42px rgba(0,0,0,.19);
+      transition: transform .28s ease,border-color .28s ease,box-shadow .28s ease,background .28s ease;
+    }
+    #projects .grid > div:hover {
+      background: linear-gradient(130deg,rgba(255,255,255,.13),rgba(72,137,166,.085) 35%,rgba(15,33,53,.66));
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.2),0 21px 50px rgba(0,0,0,.23);
+    }
+    .contact-links a {
+      background: linear-gradient(127deg,rgba(255,255,255,.09),rgba(26,52,76,.53));
+      border-color: rgba(190,224,252,.23);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.12),0 10px 28px rgba(0,0,0,.11);
+    }
+    .contact-links a:hover {
+      background: linear-gradient(127deg,rgba(255,255,255,.14),rgba(32,69,83,.64));
+    }
+    .skills span {
+      background: linear-gradient(130deg,rgba(200,255,243,.11),rgba(80,164,164,.055));
+      border-color: rgba(163,239,223,.29);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.09);
+    }
+    .language-switch {
+      background: linear-gradient(140deg,rgba(255,255,255,.11),rgba(115,168,205,.05));
+      border-color: rgba(197,227,249,.24);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.14);
+    }
+    .action-outline {
+      background: linear-gradient(135deg,rgba(255,255,255,.13),rgba(90,139,173,.055));
+      border-color: rgba(193,226,249,.34);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.16),0 8px 22px rgba(0,0,0,.12);
+    }
+    .action-primary { background: linear-gradient(145deg,#a0f5de,#65e2c2 68%,#42c1aa); box-shadow: inset 0 1px 0 #ffffff70,0 9px 26px #3ab79e27; }
+    .portrait { border-color: rgba(210,242,255,.32); box-shadow: inset 0 1px 0 #ffffff18,0 27px 70px #0007,0 0 36px rgba(101,226,194,.07); }
+    #cookie-notice {
+      background: linear-gradient(140deg,rgba(37,61,85,.87),rgba(15,31,49,.84));
+      border-color: rgba(202,231,248,.26);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.16),0 18px 48px #0008;
+    }
+    @media (max-width:480px) { .site-nav { padding-inline:12px; border-radius:17px; } }
+    @media (prefers-reduced-transparency:reduce) {
+      .site-nav, #projects .grid > div, .contact-links a, .action-outline, .language-switch, #cookie-notice { -webkit-backdrop-filter:none; backdrop-filter:none; }
+      #projects .grid > div { background:#172638; }
+      .contact-links a { background:#192b40; }
+      .site-nav { background:#142438; }
+    }
     @media (prefers-reduced-motion: reduce) { *, *:before, *:after { scroll-behavior: auto !important; transition-duration: .01ms !important; } }
   </style>
 </head>
@@ -297,6 +361,6 @@
     </footer>
   </div>
   <script src="/assets/js/i18n.js?v=2" defer></script>
-  <script src="/assets/js/erokha-chat.js?v=1" defer></script>
+  <script src="/assets/js/erokha-chat.js?v=2" defer></script>
 </body>
 </html>

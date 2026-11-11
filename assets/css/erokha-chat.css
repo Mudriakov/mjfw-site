@@ -1,13 +1,13 @@
 /* Erokha website reception, isolated from the portfolio styles. */
-#erokha-chat{position:fixed;z-index:80;right:max(16px,env(safe-area-inset-right));bottom:max(16px,env(safe-area-inset-bottom));font-family:Manrope,sans-serif;color:#edf5ff}
+#erokha-chat{position:fixed;z-index:80;right:max(16px,env(safe-area-inset-right));bottom:max(16px,env(safe-area-inset-bottom));font-family:Manrope,sans-serif;color:#edf5ff;pointer-events:none}
 #erokha-chat *{box-sizing:border-box}
 #erokha-chat button,#erokha-chat textarea,#erokha-chat input{font:inherit}
 #erokha-chat button{cursor:pointer}
-#erokha-chat .erokha-launcher{display:grid;place-items:center;width:62px;height:62px;padding:4px;margin-left:auto;border-radius:50%;background:#1c3444;border:1px solid #65e2c2aa;box-shadow:0 14px 35px #0009}
+#erokha-chat .erokha-launcher{position:relative;isolation:isolate;display:grid;place-items:center;width:62px;height:62px;padding:4px;margin-left:auto;border-radius:50%;background:linear-gradient(145deg,#2e6774,#12283c);border:1px solid #92ffe6b5;box-shadow:0 14px 35px #0009,0 0 18px #65e2c222;pointer-events:auto;animation:erokha-launch-breathe 5.2s ease-in-out infinite;transition:opacity .26s ease,visibility 0s linear .28s,box-shadow .3s ease}
 #erokha-chat .erokha-launcher img{width:100%;height:100%;border-radius:50%;object-fit:cover}
-#erokha-chat .erokha-panel{display:none;flex-direction:column;width:min(390px,calc(100vw - 24px));height:min(570px,calc(100dvh - 110px));margin-bottom:12px;background:#101c2c;border:1px solid #ffffff2a;border-radius:18px;box-shadow:0 22px 60px #000b;overflow:hidden}
-#erokha-chat.is-open .erokha-panel{display:flex}
-#erokha-chat.is-open .erokha-launcher{display:none}
+#erokha-chat .erokha-panel{position:absolute;right:0;bottom:calc(100% + 12px);display:flex;flex-direction:column;width:min(390px,calc(100vw - 24px));height:min(570px,calc(100dvh - 110px));margin:0;background:linear-gradient(155deg,rgba(35,65,83,.87),rgba(12,27,46,.9) 45%,rgba(10,24,40,.94));-webkit-backdrop-filter:blur(26px) saturate(175%);backdrop-filter:blur(26px) saturate(175%);border:1px solid #d5f4ff55;border-radius:20px;box-shadow:inset 0 1px 0 #ffffff30,0 25px 70px #000c,0 0 38px #65e2c21c;overflow:hidden;isolation:isolate;visibility:hidden;opacity:0;transform:translate3d(0,22px,0) scale(.94);transform-origin:bottom right;pointer-events:none;transition:opacity .34s ease,transform .48s cubic-bezier(.18,.83,.2,1),visibility 0s linear .48s}
+#erokha-chat.is-open .erokha-panel{visibility:visible;opacity:1;transform:translate3d(0,0,0) scale(1);pointer-events:auto;transition:opacity .38s ease,transform .52s cubic-bezier(.18,.83,.2,1),visibility 0s}
+#erokha-chat.is-open .erokha-launcher{animation:none;opacity:0;transform:scale(.78);visibility:hidden;pointer-events:none}
 #erokha-chat .erokha-head{display:flex;align-items:center;gap:11px;padding:12px 14px;background:linear-gradient(120deg,#1c3c43,#18253a);border-bottom:1px solid #ffffff22}
 #erokha-chat .erokha-head img{width:43px;height:43px;border-radius:50%}
 #erokha-chat .erokha-identity{flex:1;min-width:0}
@@ -41,10 +41,10 @@
 #erokha-chat .erokha-btn.primary{background:#65e2c2;border-color:#65e2c2;color:#082019;font-weight:800}
 #erokha-chat button:focus-visible,#erokha-chat textarea:focus-visible,#erokha-chat input:focus-visible{outline:2px solid #65e2c2;outline-offset:2px}
 @media(max-width:600px){#erokha-chat{right:12px;left:12px;bottom:max(12px,env(safe-area-inset-bottom))}#erokha-chat .erokha-panel{width:100%;height:min(660px,calc(100dvh - 78px))}#erokha-chat .erokha-launcher{width:58px;height:58px}}
-@media(max-width:600px) and (max-height:540px){#erokha-chat.is-open{bottom:4px}#erokha-chat .erokha-panel{height:calc(100dvh - 12px);margin-bottom:0}}
-@media(prefers-reduced-motion:reduce){#erokha-chat *{transition:none!important}}
+@media(max-width:600px) and (max-height:540px){#erokha-chat.is-open{bottom:4px}#erokha-chat .erokha-panel{bottom:0;height:calc(100dvh - 12px);margin-bottom:0}}
+@media(prefers-reduced-motion:reduce){#erokha-chat *,#erokha-chat *::before,#erokha-chat *::after{transition:none!important;animation:none!important}}
 
-#erokha-chat .erokha-launcher:hover{transform:translateY(-2px);box-shadow:0 16px 40px #000a}
+#erokha-chat .erokha-launcher:hover{animation-play-state:paused;transform:translateY(-2px) scale(1.03);box-shadow:0 16px 40px #000a,0 0 30px #65e2c255}
 #erokha-chat .erokha-launcher img{display:block}
 #erokha-chat .erokha-panel{color:#edf5ff}
 #erokha-chat .erokha-head .erokha-identity{flex:1;min-width:0}
@@ -70,3 +70,35 @@
 #erokha-chat .erokha-role{display:block;margin-bottom:4px}
 #erokha-chat textarea:disabled{opacity:.6}
 @media(max-width:600px){#erokha-chat .erokha-panel{height:min(660px,calc(100dvh - 80px))}}
+
+/* Ambient pulse around Erokha's launcher. */
+#erokha-chat .erokha-launcher::before,
+#erokha-chat .erokha-launcher::after{content:"";position:absolute;border-radius:50%;pointer-events:none}
+#erokha-chat .erokha-launcher::before{inset:-9px;border:1px solid #76fbe47c;box-shadow:0 0 21px #65e2c23b;animation:erokha-orbit-ring 4.5s ease-in-out infinite}
+#erokha-chat .erokha-launcher::after{inset:-3px;border:1px solid #e7ffff78;box-shadow:inset 0 0 13px #96fff527,0 0 14px #55e9d644;animation:erokha-orbit-shine 6.2s ease-in-out infinite}
+#erokha-chat .erokha-launcher img{position:relative;z-index:1;animation:erokha-avatar-breathe 5.2s ease-in-out infinite}
+
+/* Two gentle light/refraction passes travel across the whole chat window. */
+#erokha-chat .erokha-panel::before,#erokha-chat .erokha-panel::after{content:"";position:absolute;inset:-30%;z-index:3;pointer-events:none}
+#erokha-chat .erokha-panel::before{background:linear-gradient(119deg,transparent 37%,#91e8f200 43%,#a2ecff16 48%,#ecffff24 50%,#a0dcff14 53%,transparent 61%);opacity:.72;transform:translate3d(-44%,0,0);animation:erokha-glass-wave 13s ease-in-out infinite}
+#erokha-chat .erokha-panel::after{background:radial-gradient(ellipse 46% 17% at 30% 50%,#65e2c21e,transparent 86%),repeating-linear-gradient(110deg,transparent 0,transparent 42px,#d6ffff0a 43px,transparent 45px);opacity:.52;transform:translate3d(-14%,-8%,0);animation:erokha-digital-wave 17s ease-in-out infinite alternate}
+#erokha-chat:not(.is-open) .erokha-panel::before,#erokha-chat:not(.is-open) .erokha-panel::after{animation-play-state:paused}
+#erokha-chat .erokha-head{background:linear-gradient(120deg,#23515bba,#23394eba);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);box-shadow:inset 0 1px 0 #ffffff20}
+#erokha-chat .erokha-compose{background:linear-gradient(135deg,#193346e8,#132638ed);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
+#erokha-chat .erokha-bubble.assistant{background:linear-gradient(140deg,#315368c9,#1d3347ea);border-color:#ddfbff30}
+#erokha-chat .erokha-welcome{background:linear-gradient(135deg,#e7faff15,#b7e8ff09);border-color:#ddffff25}
+#erokha-chat .erokha-panel:focus-within{border-color:#b7f4e67a}
+
+@keyframes erokha-launch-breathe{0%,100%{transform:translateY(0) scale(1);box-shadow:0 14px 35px #0009,0 0 12px #65e2c220}50%{transform:translateY(-3px) scale(1.045);box-shadow:0 17px 40px #0009,0 0 27px #65e2c255}}
+@keyframes erokha-orbit-ring{0%,100%{transform:scale(.96);opacity:.35}50%{transform:scale(1.17);opacity:.85}}
+@keyframes erokha-orbit-shine{0%,100%{opacity:.35}45%{opacity:.95}75%{opacity:.45}}
+@keyframes erokha-avatar-breathe{0%,100%{transform:scale(1)}50%{transform:scale(.973)}}
+@keyframes erokha-glass-wave{0%,15%{transform:translate3d(-48%,0,0)}64%,100%{transform:translate3d(52%,0,0)}}
+@keyframes erokha-digital-wave{0%{transform:translate3d(-15%,-12%,0) rotate(-3deg)}100%{transform:translate3d(14%,10%,0) rotate(3deg)}}
+@media(max-width:600px) and (min-height:541px){
+  #erokha-chat .erokha-panel{height:min(660px,calc(100dvh - 100px - env(safe-area-inset-bottom)));transform-origin:bottom right}
+}
+@media(prefers-reduced-transparency:reduce){
+  #erokha-chat .erokha-panel{-webkit-backdrop-filter:none;backdrop-filter:none;background:#122237}
+  #erokha-chat .erokha-panel::before,#erokha-chat .erokha-panel::after{display:none}
+}
