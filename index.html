@@ -8,13 +8,13 @@
   <meta name="keywords" content="Иван Мудряков, Mudriakov, Fullstack-разработчик, React, FastAPI, Telegram Mini Apps, AI, автоматизация, веб-разработка" />
   <meta name="author" content="Ivan Mudriakov" />
   <link rel="canonical" href="https://mudriakov.ru/" />
-  <link rel="icon" type="image/png" sizes="64x64" href="/favicon.png?v=3" />
+  <link rel="icon" type="image/png" sizes="64x64" href="/assets/images/favicon.png?v=3" />
   <meta property="og:type" content="website" />
   <meta property="og:locale" content="ru_RU" />
   <meta property="og:title" content="Иван Мудряков - Fullstack-разработчик" />
   <meta property="og:description" content="Веб-приложения, Telegram Mini Apps, AI-инструменты и автоматизация." />
   <meta property="og:url" content="https://mudriakov.ru/" />
-  <meta property="og:image" content="https://mudriakov.ru/avatar.jpg" />
+  <meta property="og:image" content="https://mudriakov.ru/assets/images/avatar.jpg" />
   <title>Иван Мудряков</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -37,6 +37,7 @@
 </script>
 <noscript><div><img src="https://mc.yandex.ru/watch/100821330" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
 <!-- /Yandex.Metrika counter -->
+  <link rel="stylesheet" href="/assets/css/erokha-chat.css?v=1" />
   <style>
     :root { color-scheme: dark; --bg: #0a101d; --surface: #111c2c; --border: rgba(170,197,230,.16); --text: #edf5ff; --muted: #a9bbd1; --accent: #65e2c2; }
     * { box-sizing: border-box; }
@@ -177,7 +178,7 @@
 <body>
   <div class="shell">
     <nav class="site-nav" aria-label="Основная навигация">
-      <a class="brand" href="/" aria-label="Иван Мудряков - на главную"><img src="/favicon.png?v=3" alt="" width="36" height="36" /><span class="brand-name" data-i18n="name">Иван Мудряков</span></a>
+      <a class="brand" href="/" aria-label="Иван Мудряков - на главную"><img src="/assets/images/favicon.png?v=3" alt="" width="36" height="36" /><span class="brand-name" data-i18n="name">Иван Мудряков</span></a>
       <div class="nav-links">
         <a href="#about" data-i18n="aboutNav">Обо мне</a>
         <a href="#projects" data-i18n="projectsNav">Проекты</a>
@@ -199,7 +200,7 @@
           <a class="action action-outline" href="#contact" data-i18n="heroContact">Связаться со мной</a>
         </div>
       </div>
-      <div class="portrait-wrap"><img class="portrait" src="avatar.jpg" alt="Иван Мудряков" width="340" height="425" fetchpriority="high"></div>
+      <div class="portrait-wrap"><img class="portrait" src="/assets/images/avatar.jpg" alt="Иван Мудряков" width="340" height="425" fetchpriority="high"></div>
     </header>
 
     <main>
@@ -218,33 +219,33 @@
         <h2 class="text-3xl font-bold mb-4 border-b pb-2" data-i18n="projectsHeading">Проекты</h2>
         <div class="grid md:grid-cols-2 gap-6">
           <div class="bg-gray-800 rounded-xl p-4 shadow-md hover:scale-[1.02] transition shuhov-card">
-            <img src="/shuhov-avatar.png" alt="Код Шухова" class="shuhov-avatar" width="40" height="40" loading="lazy" decoding="async" />
+            <img src="/assets/images/shuhov-avatar.png" alt="Код Шухова" class="shuhov-avatar" width="40" height="40" loading="lazy" decoding="async" />
             <h3 class="text-xl font-semibold">Код Шухова - AI-платформа</h3>
             <span class="project-status" data-i18n="devStatus">В разработке</span>
             <p class="text-gray-400">Веб-платформа для создания сайтов и веб-приложений с помощью искусственного интеллекта. Объединяет ИИ-агента, визуальное редактирование интерфейсов и работу с исходным кодом в одном пространстве.<br>Названа в честь выдающегося инженера Владимира Григорьевича Шухова.</p>
             <a href="https://shuhov-code.ru" target="_blank" rel="noopener noreferrer" class="text-blue-400 underline">Открыть платформу</a>
           </div>
           <div class="bg-gray-800 rounded-xl p-4 shadow-md hover:scale-[1.02] transition minuetai-card">
-            <img src="/minuetai-avatar.png" alt="MinuetAI" class="minuetai-avatar" width="40" height="40" loading="lazy" decoding="async" />
+            <img src="/assets/images/minuetai-avatar.png" alt="MinuetAI" class="minuetai-avatar" width="40" height="40" loading="lazy" decoding="async" />
             <h3 class="text-xl font-semibold">MinuetAI | Музыка с ИИ</h3>
             <span class="project-status" data-i18n="devStatus">В разработке</span>
             <p class="text-gray-400">Telegram Mini App для создания музыки и песен с помощью искусственного интеллекта. Превращайте идеи и текстовые описания в готовые композиции с музыкой и вокалом прямо в Telegram.<br>Создавайте собственные треки, экспериментируйте со стилями и слушайте результат в приложении.</p>
             <a href="https://t.me/MinuetAI_bot" target="_blank" rel="noopener noreferrer" class="text-blue-400 underline">Открыть приложение</a>
           </div>
           <div class="bg-gray-800 rounded-xl p-4 shadow-md hover:scale-[1.02] transition erokha-card">
-            <img src="/erokha-avatar.png" alt="Админ Ероха" class="erokha-avatar" width="40" height="40" loading="lazy" decoding="async" />
+            <img src="/assets/images/erokha-avatar.png" alt="Админ Ероха" class="erokha-avatar" width="40" height="40" loading="lazy" decoding="async" />
             <h3 class="text-xl font-semibold">Админ Ероха - AI-администратор VPS</h3>
             <p class="text-gray-400">ИИ-ассистент для администрирования VPS и Docker: отслеживает состояние контейнеров, сообщает о сбоях в Telegram и помогает разобраться в неполадках.<br>Владельцу доступны разрешённые команды управления сервером, а гостям - приёмная для связи с разработчиком.</p>
             <a href="https://t.me/ai_vps_administrator_bot" target="_blank" rel="noopener noreferrer" class="text-blue-400 underline">Открыть бота</a>
           </div>
           <div class="bg-gray-800 rounded-xl p-4 shadow-md hover:scale-[1.02] transition horo-card">
-            <img src="/horo-avatar.png" alt="Horo Telegram" class="horo-avatar" width="40" height="40" loading="lazy" decoding="async" />
+            <img src="/assets/images/horo-avatar.png" alt="Horo Telegram" class="horo-avatar" width="40" height="40" loading="lazy" decoding="async" />
             <h3 class="text-xl font-semibold">Horo Telegram</h3>
             <p class="text-gray-400">Персональные гороскопы и ИИ-прогнозы о жизни, любви, работе, финансах и будущем. Прогнозы на день, неделю, месяц и год, а также индивидуальные астрологические разборы в Telegram Mini App.<br>В приложении также предусмотрена партнёрская программа.</p>
             <a href="https://t.me/horo_telegram_bot" target="_blank" rel="noopener noreferrer" class="text-blue-400 underline">Открыть приложение</a>
           </div>
           <div class="bg-gray-800 rounded-xl p-4 shadow-md hover:scale-[1.02] transition tarot-card">
-            <img src="/tarot-avatar.png" alt="Расклады Таро" class="tarot-avatar" width="40" height="40" loading="lazy" decoding="async" />
+            <img src="/assets/images/tarot-avatar.png" alt="Расклады Таро" class="tarot-avatar" width="40" height="40" loading="lazy" decoding="async" />
             <h3 class="text-xl font-semibold">Расклады Таро</h3>
             <p class="text-gray-400">Telegram Mini App с персональными раскладами и трактовками карт Таро. Выберите расклад, задайте вопрос и получите интерпретацию карт прямо в Telegram.<br>В приложении также предусмотрена партнёрская программа.</p>
             <a href="https://t.me/tarot_telegram_ru_bot" target="_blank" rel="noopener noreferrer" class="text-blue-400 underline">Открыть приложение</a>
@@ -256,7 +257,7 @@
             <a href="https://t.me/m8all_MJFW_bot" target="_blank" rel="noopener noreferrer" class="text-blue-400 underline">Открыть бота</a>
           </div>
           <div class="bg-gray-800 rounded-xl p-4 shadow-md hover:scale-[1.02] transition mybooking-card">
-            <img src="/mybooking-avatar.png" alt="MyBooking" class="mybooking-avatar" width="40" height="40" loading="lazy" decoding="async" />
+            <img src="/assets/images/mybooking-avatar.png" alt="MyBooking" class="mybooking-avatar" width="40" height="40" loading="lazy" decoding="async" />
             <h3 class="text-xl font-semibold">MyBooking.uz Telegram MINI-APP</h3>
             <p class="text-gray-400">
               Быстрый поиск и бронирование отелей по Узбекистану прямо в Telegram.<br>
@@ -295,6 +296,7 @@
       <span data-i18n="footerServices">Веб-разработка · AI · Автоматизация</span>
     </footer>
   </div>
-  <script src="/i18n.js?v=1" defer></script>
+  <script src="/assets/js/i18n.js?v=2" defer></script>
+  <script src="/assets/js/erokha-chat.js?v=1" defer></script>
 </body>
 </html>
