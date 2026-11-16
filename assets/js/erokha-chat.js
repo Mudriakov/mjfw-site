@@ -12,7 +12,9 @@
       consent:"Согласен на сохранение переписки и передачу заявки Ивану Мудрякову.",
       cancel:"Отмена", submit:"Передать", typing:"Ероха думает...", loading:"Загружаю переписку...",
       offline:"Чат пока не подключён к серверу. Вы можете связаться с Иваном через раздел «Контакты».",
-      error:"Сервис временно недоступен. Попробуйте позже.", sent:"Обращение передано Ивану. Ответ появится здесь, когда он ответит.",
+      error:"Сервис временно недоступен. Попробуйте позже.", sent:"Обращение принято для передачи Ивану. Ответ появится здесь, когда он ответит.",
+      expired:"Сессия обновлена. Черновик сохранён, отправьте его ещё раз.", conflict:"Конфликт повторной отправки. Проверьте историю, прежде чем отправлять заново.",
+      slowDown:"Давайте немного подождём. При необходимости можно оставить обращение Ивану.",
       owner:"Иван Мудряков", choices:["Веб-приложение","Telegram Mini App","ИИ / автоматизация","Другая задача"],
       questions:["Здравствуйте! Хочу заказать веб-приложение. Что нужно для старта?","Мне нужно Telegram Mini App для бизнеса. Поможете разобраться?","Хочу автоматизировать бизнес-процесс с помощью ИИ.","Здравствуйте! Хочу рассказать о своём проекте."]
     },
@@ -24,7 +26,9 @@
       consent:"I agree to save this conversation and forward my inquiry to Ivan Mudriakov.",
       cancel:"Cancel", submit:"Send", typing:"Erokha is thinking...", loading:"Loading conversation...",
       offline:"Chat is not connected to the server yet. Please use the Contacts section to reach Ivan.",
-      error:"Service is temporarily unavailable. Please try again later.", sent:"Inquiry sent. Ivan's reply will appear here when available.",
+      error:"Service is temporarily unavailable. Please try again later.", sent:"Your inquiry has been queued for delivery to Ivan. His reply will appear here when available.",
+      expired:"Your session has been renewed. Your draft is saved; please submit it again.", conflict:"Message request conflict. Check the conversation before submitting again.",
+      slowDown:"Please wait a little before trying again. You can also leave an inquiry for Ivan.",
       owner:"Ivan Mudriakov", choices:["Web application","Telegram Mini App","AI / automation","Another project"],
       questions:["Hello! I need a web application. What do we need to start?","I need a Telegram Mini App for my business. Can you advise?","I would like to automate a workflow with AI.","Hello! I would like to describe a development project."]
     }
@@ -43,7 +47,7 @@
       '<div class="erokha-status" role="status"></div>',
       '<div class="erokha-actions"><button type="button" class="erokha-action" data-ero="action"></button>',
       '<a class="erokha-direct" href="#contact" data-ero="direct"></a></div>',
-      '<form class="erokha-compose"><textarea class="erokha-input" rows="1" maxlength="2500" required></textarea>',
+      '<form class="erokha-compose"><textarea class="erokha-input" rows="1" maxlength="4000" required></textarea>',
       '<button type="submit" class="erokha-send">➤</button></form>',
       '<form class="erokha-contact-form"><label><span data-ero="request"></span>',
       '<textarea class="erokha-contact-field erokha-request" rows="3" maxlength="2500" required></textarea></label>',
@@ -61,12 +65,26 @@
     const language = () => document.documentElement.lang === "en" ? "en" : "ru";
     const tr = key => copy[language()][key];
     let token, busy = false, open = false, fetching = false, poll = null, statusKey = "";
-    try { token = sessionStorage.getItem("erokha_session_v1"); } catch (_) {}
+    let sessionPromise = null, pending = null, waitingForResponse = false, lastItems = [], cooldownUntil = 0;
+    try {
+      token = sessionStorage.getItem("erokha_session_v1");
+      const stored = JSON.parse(sessionStorage.getItem("erokha_pending_v1") || "null");
+      if (stored && typeof stored.message === "string" && typeof stored.request_id === "string") {
+        pending = stored;
+        waitingForResponse = stored.state === "processing";
+      }
+    } catch (_) {}
+    function savePending() {
+      try {
+        if (pending) sessionStorage.setItem("erokha_pending_v1", JSON.stringify(pending));
+        else sessionStorage.removeItem("erokha_pending_v1");
+      } catch (_) {}
+    }
     const inform = key => { statusKey = key; status.textContent = key ? tr(key) : ""; };
     function setBusy(value) {
       busy = value;
-      input.disabled = value || !enabled;
-      get(".erokha-send").disabled = value || !enabled;
+      input.disabled = value || waitingForResponse || !enabled;
+      get(".erokha-send").disabled = value || waitingForResponse || !enabled;
       get(".erokha-action").disabled = value || !enabled;
       get(".erokha-submit").disabled = value || !enabled;
     }
@@ -103,17 +121,36 @@
       parent.append(document.createTextNode(content.slice(start)));
     }
     function show(items) {
+      lastItems = items.filter(item => ["user","assistant","developer"].includes(item.role));
       const atEnd = scroll.scrollHeight-scroll.scrollTop-scroll.clientHeight < 90;
-      list.replaceChildren();
-      for (const msg of items) {
-        if (!["user","assistant","developer"].includes(msg.role)) continue;
-        const bubble = document.createElement("div"); bubble.className = "erokha-bubble "+msg.role;
-        if (msg.role==="developer") {
-          const label = document.createElement("span"); label.className = "erokha-role"; label.textContent = tr("owner"); bubble.append(label);
+      const fingerprint = JSON.stringify(lastItems.map(item => [item.role,item.text,language()]));
+      if (list.dataset.fingerprint !== fingerprint) {
+        list.dataset.fingerprint = fingerprint;
+        list.replaceChildren();
+        for (const item of lastItems) {
+          const bubble = document.createElement("div");
+          bubble.className = "erokha-bubble " + item.role;
+          const label = document.createElement("span");
+          label.className = "erokha-role";
+          label.textContent = item.role === "developer" ? tr("owner") : item.role === "user"
+            ? (language() === "en" ? "You" : "Вы") : tr("title");
+          bubble.append(label);
+          messageText(bubble,item.text);
+          list.append(bubble);
         }
-        messageText(bubble,msg.text); list.append(bubble);
       }
       if (atEnd) scroll.scrollTop = scroll.scrollHeight;
+      if (waitingForResponse && pending) {
+        const newer = lastItems.slice(Math.max(0,pending.baseline || 0));
+        const userIndex = newer.findLastIndex(item => item.role === "user" && item.text === pending.message);
+        if (userIndex >= 0 && newer.slice(userIndex + 1).some(item => item.role === "assistant")) {
+          waitingForResponse = false;
+          pending = null;
+          savePending();
+          setBusy(false);
+          inform("");
+        }
+      }
     }
     async function call(path,options={}) {
       if (!enabled) throw new Error("offline");
@@ -123,29 +160,64 @@
           ...options, signal:controller.signal, mode:"cors",credentials:"omit",cache:"no-store",
           headers:{"Content-Type":"application/json",...(token?{"X-Eroha-Session":token}:{}),...(options.headers||{})}
         });
-        if (!response.ok) { const error = new Error("Request failed"); error.status=response.status; throw error; }
+        if (!response.ok) {
+          const error = new Error("Request failed");
+          error.status = response.status;
+          try { error.code = (await response.json()).error; } catch (_) {}
+          throw error;
+        }
         return response.json();
       } finally { clearTimeout(timeout); }
     }
     async function session() {
       if (token) return;
-      const data = await call("/v1/session",{method:"POST",body:JSON.stringify({language:language()})});
-      token = data.session_token;
-      if (!token) throw new Error("Session missing");
-      try { sessionStorage.setItem("erokha_session_v1",token); } catch (_) {}
+      if (!sessionPromise) {
+        sessionPromise = (async () => {
+          const data = await call("/v1/session",{method:"POST",body:JSON.stringify({language:language()})});
+          if (!data.session_token) throw new Error("Session missing");
+          token = data.session_token;
+          try { sessionStorage.setItem("erokha_session_v1",token); } catch (_) {}
+        })().finally(() => { sessionPromise = null; });
+      }
+      await sessionPromise;
+    }
+    async function handleError(error) {
+      if (error.status === 401) {
+        token = null;
+        pending = null;
+        waitingForResponse = false;
+        savePending();
+        try { sessionStorage.removeItem("erokha_session_v1"); } catch (_) {}
+        inform("expired");
+        try { await session(); } catch (_) { inform("error"); }
+      } else if (error.status === 409) {
+        pending = null; savePending(); inform("conflict");
+      } else if (error.status === 429) {
+        cooldownUntil = Date.now() + 30000;
+        inform("slowDown");
+      } else {
+        inform("error");
+      }
     }
     async function refresh() {
-      if (!open || fetching || busy || !enabled) return;
+      if (!open || document.hidden || fetching || !enabled || Date.now() < cooldownUntil) return;
       fetching = true;
       try {
-        await session(); const data = await call("/v1/history"); show(data.messages||[]);
-        if (statusKey==="loading") inform("");
+        await session();
+        const data = await call("/v1/history");
+        show(Array.isArray(data.messages) ? data.messages : []);
+        if (statusKey === "loading") inform("");
       } catch (error) {
-        if (error.status===401) {
-          token=null; try { sessionStorage.removeItem("erokha_session_v1"); } catch (_) {}
-        }
-        inform("error");
-      } finally { fetching=false; }
+        await handleError(error);
+      } finally { fetching = false; }
+    }
+    function updatePolling() {
+      if (poll) clearInterval(poll);
+      poll = null;
+      if (open && !document.hidden && enabled) {
+        poll = setInterval(refresh,5000);
+        void refresh();
+      }
     }
     function close() {
       open=false; root.classList.remove("is-open","contact-open");
@@ -159,7 +231,7 @@
       get(".erokha-panel").removeAttribute("inert");
       get(".erokha-panel").setAttribute("aria-hidden","false");
       inform(enabled?"loading":"offline");
-      if (enabled) { refresh(); if (!poll) poll=setInterval(refresh,12000); input.focus(); }
+      if (enabled) { updatePolling(); if (!waitingForResponse) input.focus(); }
       else get(".erokha-direct").focus();
     });
     get(".erokha-close").addEventListener("click",close);
@@ -174,16 +246,33 @@
       if (e.key==="Enter"&&!e.shiftKey&&!e.isComposing) { e.preventDefault(); get(".erokha-compose").requestSubmit(); }
     });
     get(".erokha-compose").addEventListener("submit",async e=>{
-      e.preventDefault(); const value = input.value.trim();
-      if (!enabled||!value||busy) return;
+      e.preventDefault();
+      const value = input.value.trim(), selectedLanguage = language();
+      if (!enabled || !value || busy || waitingForResponse || Date.now() < cooldownUntil) return;
+      if (!pending || pending.message !== value || pending.language !== selectedLanguage || pending.state === "processing") {
+        if (!crypto.randomUUID) { inform("error"); return; }
+        pending = {message:value, language:selectedLanguage, request_id:crypto.randomUUID(), baseline:lastItems.length, state:"retryable"};
+        savePending();
+      }
       setBusy(true); inform("typing");
-      const id = (crypto.randomUUID?.() || String(Date.now())+"_"+Math.random().toString(36).slice(2)).replace(/[^A-Za-z0-9_-]/g,"_");
       try {
         await session();
-        await call("/v1/message",{method:"POST",body:JSON.stringify({message:value,language:language(),request_id:id})});
-        input.value=""; inform("");
-      } catch (_) { inform("error"); }
-      finally { setBusy(false); await refresh(); if (open) input.focus(); }
+        const result = await call("/v1/message",{method:"POST",body:JSON.stringify({
+          message:pending.message, language:pending.language, request_id:pending.request_id
+        })});
+        if (result.status !== "done" && result.status !== "processing") throw new Error("Unexpected message status");
+        waitingForResponse = true;
+        pending.state = "processing";
+        savePending();
+        input.value = "";
+        inform("typing");
+      } catch (error) {
+        await handleError(error);
+      } finally {
+        setBusy(false);
+        await refresh();
+        if (open && !waitingForResponse) input.focus();
+      }
     });
     get(".erokha-action").addEventListener("click",()=>{
       if (!enabled) return;
@@ -198,16 +287,27 @@
       setBusy(true); inform("typing");
       try {
         await session();
-        await call("/v1/contact",{method:"POST",body:JSON.stringify({
+        const result = await call("/v1/contact",{method:"POST",body:JSON.stringify({
           message:text,contact:get(".erokha-contact-detail").value.trim(),consent:true
         })});
-        root.classList.remove("contact-open"); inform("sent");
-      } catch (_) { inform("error"); }
+        if (!result.id || result.status !== "queued") throw new Error("Unexpected inquiry response");
+        root.classList.remove("contact-open");
+        get(".erokha-optin").checked = false;
+        get(".erokha-request").value = "";
+        get(".erokha-contact-detail").value = "";
+        inform("sent");
+      } catch (error) { await handleError(error); }
       finally { setBusy(false); await refresh(); }
     });
-    new MutationObserver(translate).observe(document.documentElement,{attributes:true,attributeFilter:["lang"]});
-    window.addEventListener("site:languagechange",translate);
+    document.addEventListener("visibilitychange",updatePolling);
+    new MutationObserver(() => { translate(); show(lastItems); }).observe(document.documentElement,{attributes:true,attributeFilter:["lang"]});
+    window.addEventListener("site:languagechange",() => { translate(); show(lastItems); });
     translate(); setBusy(false);
+    if (pending && pending.state === "processing") {
+      waitingForResponse = true;
+      setBusy(false);
+      inform("typing");
+    }
     if (!enabled) inform("offline");
   };
   if (document.readyState==="loading") document.addEventListener("DOMContentLoaded",start,{once:true});
