@@ -61,6 +61,10 @@
     document.body.append(root);
     const get = selector => root.querySelector(selector);
     const launcher = get(".erokha-launcher"), input = get(".erokha-input");
+    try { input.value = sessionStorage.getItem("erokha_draft_v1") || ""; } catch (_) {}
+    input.addEventListener("input", () => {
+      try { sessionStorage.setItem("erokha_draft_v1", input.value); } catch (_) {}
+    });
     const list = get(".erokha-messages"), scroll = get(".erokha-scroll"), status = get(".erokha-status");
     const language = () => document.documentElement.lang === "en" ? "en" : "ru";
     const tr = key => copy[language()][key];
@@ -114,7 +118,11 @@
         if (s.startsWith("**")) node.textContent = s.slice(2,-2);
         else if (s[0]==="\x60") node.textContent = s.slice(1,-1);
         else {
-          const u = new URL(s); node.href = u.href; node.target = "_blank"; node.rel = "noopener noreferrer"; node.textContent = s;
+          try {
+            const u = new URL(s);
+            if (u.protocol !== "https:") throw new Error("Invalid protocol");
+            node.href = u.href; node.target = "_blank"; node.rel = "noopener noreferrer"; node.textContent = s;
+          } catch (_) { node.textContent = s; }
         }
         parent.append(node); start = hit.index+s.length;
       }
@@ -249,7 +257,7 @@
       e.preventDefault();
       const value = input.value.trim(), selectedLanguage = language();
       if (!enabled || !value || busy || waitingForResponse || Date.now() < cooldownUntil) return;
-      if (!pending || pending.message !== value || pending.language !== selectedLanguage || pending.state === "processing") {
+      if (!pending || pending.message !== value || pending.state === "processing") {
         if (!crypto.randomUUID) { inform("error"); return; }
         pending = {message:value, language:selectedLanguage, request_id:crypto.randomUUID(), baseline:lastItems.length, state:"retryable"};
         savePending();
@@ -265,6 +273,7 @@
         pending.state = "processing";
         savePending();
         input.value = "";
+        try { sessionStorage.removeItem("erokha_draft_v1"); } catch (_) {}
         inform("typing");
       } catch (error) {
         await handleError(error);
