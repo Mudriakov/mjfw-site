@@ -28,8 +28,11 @@
     vkName: 'VK',
     footerServices: 'Web development · AI · Automation',
     devStatus: 'In development',
-    cookieText: 'This website uses cookies to improve your experience.',
-    cookieAccept: 'Accept',
+    cookieText: 'We use browser storage for essential site features. With your permission, we also use Yandex Metrica to understand site visits.',
+    cookieDetails: 'Analytics is optional. You can change your choice using Cookie settings in the footer.',
+    cookieAccept: 'Allow analytics',
+    cookieReject: 'Essential only',
+    cookieSettings: 'Cookie settings',
   };
 
   const projectTranslations = [
@@ -107,13 +110,58 @@
     return primary === 'en' ? 'en' : 'ru';
   }
 
+  const cookieRu = {
+    cookieText: 'Для работы сайта используем хранилище браузера. С Вашего разрешения также подключим Яндекс Метрику для анализа посещений.',
+    cookieDetails: 'Аналитика необязательна. Изменить выбор можно в разделе «Настройки cookie» внизу страницы.',
+    cookieAccept: 'Разрешить аналитику',
+    cookieReject: 'Только необходимые',
+    cookieSettings: 'Настройки cookie'
+  };
+
   function updateCookieNotice(language) {
+    const text = language === 'en' ? en : cookieRu;
+    const settings = document.getElementById('cookieSettings');
+    if (settings) text.cookieSettings && (settings.textContent = text.cookieSettings);
     const notice = document.getElementById('cookie-notice');
     if (!notice) return;
+    notice.setAttribute('aria-label', text.cookieSettings);
     const label = notice.querySelector('.cookie-label');
+    const details = notice.querySelector('.cookie-details');
     const accept = notice.querySelector('#acceptCookies');
-    if (label) label.textContent = language === 'en' ? en.cookieText : 'Сайт использует cookies для улучшения работы.';
-    if (accept) accept.textContent = language === 'en' ? en.cookieAccept : 'Принять';
+    const reject = notice.querySelector('#rejectCookies');
+    if (label) label.textContent = text.cookieText;
+    if (details) details.textContent = text.cookieDetails;
+    if (accept) accept.textContent = text.cookieAccept;
+    if (reject) reject.textContent = text.cookieReject;
+  }
+
+  function cookieChoice() {
+    try {
+      const choice = localStorage.getItem('siteCookieConsent');
+      return choice === 'analytics' || choice === 'essential' ? choice : null;
+    } catch (_) { return null; }
+  }
+
+  let analyticsLoaded = false;
+  function enableAnalytics() {
+    if (analyticsLoaded) return;
+    analyticsLoaded = true;
+    // Only initialize Yandex Metrica when analytics was explicitly allowed.
+    (function(m,e,t,r,i,k,a) {
+      m[i] = m[i] || function() { (m[i].a=m[i].a||[]).push(arguments); };
+      m[i].l = 1*new Date();
+      for (let j=0; j<document.scripts.length; j++) {
+        if (document.scripts[j].src === r) return;
+      }
+      k=e.createElement(t); a=e.getElementsByTagName(t)[0];
+      k.async=1; k.src=r; a.parentNode.insertBefore(k,a);
+    })(window,document,'script','https://mc.yandex.ru/metrika/tag.js','ym');
+    window.ym(100821330, 'init', {
+      clickmap:true,
+      trackLinks:true,
+      accurateTrackBounce:true,
+      webvisor:true
+    });
   }
 
   function applyLanguage(language) {
@@ -178,17 +226,39 @@
   applyLanguage(initialLanguage);
 
   document.getElementById('year').textContent = new Date().getFullYear();
-  let cookieAccepted = false;
-  try { cookieAccepted = !!localStorage.getItem('cookiesAccepted'); } catch (_) {}
-  if (!cookieAccepted) {
-    const notice = document.createElement('div');
-    notice.id = 'cookie-notice';
-    notice.innerHTML = '<span class="cookie-label"></span><button type="button" id="acceptCookies"></button>';
-    document.body.appendChild(notice);
-    updateCookieNotice(initialLanguage);
-    notice.querySelector('#acceptCookies').addEventListener('click', () => {
-      try { localStorage.setItem('cookiesAccepted', 'true'); } catch (_) {}
-      notice.remove();
-    });
-  }
+  let consent = cookieChoice();
+  const notice = document.createElement('section');
+  notice.id = 'cookie-notice';
+  notice.className = 'cookie-consent';
+  notice.setAttribute('role', 'region');
+  notice.innerHTML = [
+    '<div class="cookie-copy"><span class="cookie-label"></span><span class="cookie-details"></span></div>',
+    '<div class="cookie-buttons"><button type="button" id="rejectCookies"></button>',
+    '<button type="button" id="acceptCookies"></button></div>'
+  ].join('');
+  notice.hidden = consent !== null;
+  document.body.appendChild(notice);
+  const cookieSettings = document.getElementById('cookieSettings');
+  const setConsent = choice => {
+    const previous = consent;
+    consent = choice;
+    try {
+      localStorage.setItem('siteCookieConsent', choice);
+      localStorage.removeItem('cookiesAccepted');
+    } catch (_) {}
+    notice.hidden = true;
+    if (choice === 'analytics') enableAnalytics();
+    // A reload is needed to stop an analytics script already running on this page.
+    else if (previous === 'analytics' || analyticsLoaded) window.location.reload();
+    else if (cookieSettings) cookieSettings.focus({preventScroll:true});
+  };
+  notice.querySelector('#rejectCookies').addEventListener('click', () => setConsent('essential'));
+  notice.querySelector('#acceptCookies').addEventListener('click', () => setConsent('analytics'));
+  if (cookieSettings) cookieSettings.addEventListener('click', () => {
+    notice.hidden = false;
+    updateCookieNotice(document.documentElement.lang);
+    notice.querySelector('#rejectCookies').focus({preventScroll:true});
+  });
+  updateCookieNotice(initialLanguage);
+  if (consent === 'analytics') enableAnalytics();
 })();
