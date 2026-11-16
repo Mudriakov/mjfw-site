@@ -189,12 +189,16 @@
     async function session() {
       if (token) return;
       if (!sessionPromise) {
+        const epoch = conversationEpoch;
         sessionPromise = (async () => {
           const data = await call("/v1/session",{method:"POST",body:JSON.stringify({language:language()})});
+          if (epoch !== conversationEpoch) return;
           if (!data.session_token) throw new Error("Session missing");
           token = data.session_token;
           try { sessionStorage.setItem("erokha_session_v1",token); } catch (_) {}
-        })().finally(() => { sessionPromise = null; });
+        })().finally(() => {
+          if (epoch === conversationEpoch) sessionPromise = null;
+        });
       }
       await sessionPromise;
     }
