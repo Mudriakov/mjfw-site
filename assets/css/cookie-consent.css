@@ -1,11 +1,12 @@
-/* Bilingual, opt-in analytics notice styled to match the portfolio glass UI. */
+/* Bilingual cookie notice styled to match the portfolio glass UI. */
 #cookie-notice.cookie-consent{
   position:fixed;
   z-index:70;
   bottom:max(18px,env(safe-area-inset-bottom));
-  left:18px;
-  transform:none;
-  width:min(690px,calc(100vw - 460px));
+  left:50%;
+  right:auto;
+  transform:translateX(-50%);
+  width:min(690px,calc(100vw - 32px));
   max-width:none;
   display:flex;
   align-items:center;
@@ -28,7 +29,6 @@
   gap:5px;
 }
 #cookie-notice.cookie-consent .cookie-label{display:block;color:#edf5ff;font-weight:650}
-#cookie-notice.cookie-consent .cookie-details{display:block;color:#a8bbca;font-size:.71rem}
 #cookie-notice.cookie-consent .cookie-buttons{
   display:flex;
   align-items:center;
@@ -54,32 +54,22 @@
   background:#65e2c2;
 }
 #cookie-notice.cookie-consent button:hover{filter:brightness(1.07)}
-#cookie-notice.cookie-consent button:focus-visible,
-#cookieSettings:focus-visible{outline:2px solid #65e2c2;outline-offset:3px}
-#cookieSettings.cookie-settings-button{
-  appearance:none;
-  padding:0;
-  border:0;
-  background:transparent;
-  color:#a9bbd1;
-  cursor:pointer;
-  text-decoration:underline;
-  text-underline-offset:3px;
-  font:inherit;
-}
-#cookieSettings.cookie-settings-button:hover{color:#65e2c2}
+#cookie-notice.cookie-consent button:focus-visible{outline:2px solid #65e2c2;outline-offset:3px}
 @media(max-width:1020px){
   #cookie-notice.cookie-consent{
     width:min(650px,calc(100vw - 30px));
-    left:15px;
+    left:50%;
+    right:auto;
+    transform:translateX(-50%);
     bottom:max(88px,calc(76px + env(safe-area-inset-bottom)));
   }
 }
 @media(max-width:600px){
   #cookie-notice.cookie-consent{
     width:calc(100vw - 24px);
-    left:12px;
-    right:12px;
+    left:50%;
+    right:auto;
+    transform:translateX(-50%);
     bottom:max(84px,calc(70px + env(safe-area-inset-bottom)));
     max-height:50dvh;
     overflow-y:auto;

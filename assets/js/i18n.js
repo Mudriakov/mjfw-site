@@ -28,11 +28,10 @@
     vkName: 'VK',
     footerServices: 'Web development · AI · Automation',
     devStatus: 'In development',
-    cookieText: 'We use browser storage for essential site features. With your permission, we also use Yandex Metrica to understand site visits.',
-    cookieDetails: 'Analytics is optional. You can change your choice using Cookie settings in the footer.',
-    cookieAccept: 'Allow analytics',
+    cookieText: 'We use cookies and browser storage to keep this site working. You can allow all cookies or use only essential ones.',
+    cookieDetails: '',
+    cookieAccept: 'Accept all',
     cookieReject: 'Essential only',
-    cookieSettings: 'Cookie settings',
   };
 
   const projectTranslations = [
@@ -111,26 +110,21 @@
   }
 
   const cookieRu = {
-    cookieText: 'Для работы сайта используем хранилище браузера. С Вашего разрешения также подключим Яндекс Метрику для анализа посещений.',
-    cookieDetails: 'Аналитика необязательна. Изменить выбор можно в разделе «Настройки cookie» внизу страницы.',
-    cookieAccept: 'Разрешить аналитику',
+    cookieText: 'Мы используем cookie и хранилище браузера для работы сайта. Вы можете принять все cookie или оставить только необходимые.',
+    cookieDetails: '',
+    cookieAccept: 'Принять все',
     cookieReject: 'Только необходимые',
-    cookieSettings: 'Настройки cookie'
   };
 
   function updateCookieNotice(language) {
     const text = language === 'en' ? en : cookieRu;
-    const settings = document.getElementById('cookieSettings');
-    if (settings) text.cookieSettings && (settings.textContent = text.cookieSettings);
     const notice = document.getElementById('cookie-notice');
     if (!notice) return;
-    notice.setAttribute('aria-label', text.cookieSettings);
+    notice.setAttribute('aria-label', language === 'en' ? 'Cookie notice' : 'Уведомление о cookie');
     const label = notice.querySelector('.cookie-label');
-    const details = notice.querySelector('.cookie-details');
     const accept = notice.querySelector('#acceptCookies');
     const reject = notice.querySelector('#rejectCookies');
     if (label) label.textContent = text.cookieText;
-    if (details) details.textContent = text.cookieDetails;
     if (accept) accept.textContent = text.cookieAccept;
     if (reject) reject.textContent = text.cookieReject;
   }
@@ -232,13 +226,12 @@
   notice.className = 'cookie-consent';
   notice.setAttribute('role', 'region');
   notice.innerHTML = [
-    '<div class="cookie-copy"><span class="cookie-label"></span><span class="cookie-details"></span></div>',
+    '<div class="cookie-copy"><span class="cookie-label"></span></div>',
     '<div class="cookie-buttons"><button type="button" id="rejectCookies"></button>',
     '<button type="button" id="acceptCookies"></button></div>'
   ].join('');
   notice.hidden = consent !== null;
   document.body.appendChild(notice);
-  const cookieSettings = document.getElementById('cookieSettings');
   const setConsent = choice => {
     const previous = consent;
     consent = choice;
@@ -250,15 +243,9 @@
     if (choice === 'analytics') enableAnalytics();
     // A reload is needed to stop an analytics script already running on this page.
     else if (previous === 'analytics' || analyticsLoaded) window.location.reload();
-    else if (cookieSettings) cookieSettings.focus({preventScroll:true});
   };
   notice.querySelector('#rejectCookies').addEventListener('click', () => setConsent('essential'));
   notice.querySelector('#acceptCookies').addEventListener('click', () => setConsent('analytics'));
-  if (cookieSettings) cookieSettings.addEventListener('click', () => {
-    notice.hidden = false;
-    updateCookieNotice(document.documentElement.lang);
-    notice.querySelector('#rejectCookies').focus({preventScroll:true});
-  });
   updateCookieNotice(initialLanguage);
   if (consent === 'analytics') enableAnalytics();
 })();
