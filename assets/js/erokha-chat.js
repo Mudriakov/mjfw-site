@@ -6,6 +6,7 @@
   const copy = {
     ru: {
       title:"Ероха", subtitle:"ИИ-ассистент Ивана Мудрякова", open:"Открыть чат", close:"Свернуть чат",
+      clear:"Очистить чат", clearConfirm:"Начать новый диалог? История исчезнет из этого окна, но ранее отправленные сообщения сохранятся на сервере до окончания срока хранения.", clearSuccess:"Начат новый диалог.",
       hello:"Здравствуйте! 👋 Я Ероха, помощник Ивана Мудрякова. Расскажу о проектах, помогу разобраться с разработкой и передать заявку. Переписка сохраняется; Иван получит Ваше обращение только с согласия.",
       input:"Ваше сообщение...", send:"Отправить", action:"Передать заявку Ивану", direct:"Контакты Ивана",
       request:"Расскажите о своей задаче", contact:"Telegram или email (необязательно)",
@@ -20,6 +21,7 @@
     },
     en: {
       title:"Erokha", subtitle:"Ivan Mudriakov's AI assistant", open:"Open chat", close:"Minimize chat",
+      clear:"Clear chat", clearConfirm:"Start a new conversation? Previous messages will disappear from this window but remain on the server until their retention period ends.", clearSuccess:"New conversation started.",
       hello:"Hello! 👋 I'm Erokha, Ivan Mudriakov's assistant. I can explain his projects, answer development questions, and help you send an inquiry. The chat is saved; your inquiry is shared only with consent.",
       input:"Your message...", send:"Send", action:"Send an inquiry to Ivan", direct:"Ivan's contacts",
       request:"Describe your development project", contact:"Telegram or email (optional)",
@@ -41,6 +43,7 @@
       '<div class="erokha-panel" role="dialog" aria-modal="false" aria-labelledby="ero-title" id="ero-panel" aria-hidden="true" inert>',
       '<div class="erokha-head"><img alt="" src="/assets/images/erokha-avatar.png" width="42" height="42">',
       '<div class="erokha-identity"><strong id="ero-title" data-ero="title"></strong><small data-ero="subtitle"></small></div>',
+      '<button type="button" class="erokha-icon erokha-clear" aria-label="Clear chat" title="Clear chat"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18M8 6V4h8v2m3 0-1 14H6L5 6m5 4v6m4-6v6"/></svg></button>',
       '<button type="button" class="erokha-icon erokha-close">×</button></div>',
       '<div class="erokha-scroll" aria-live="polite"><div class="erokha-welcome" data-ero="hello"></div>',
       '<div class="erokha-chips"></div><div class="erokha-messages"></div></div>',
@@ -72,6 +75,7 @@
     const tr = key => copy[language()][key];
     let token, busy = false, open = false, fetching = false, poll = null, statusKey = "";
     let sessionPromise = null, pending = null, waitingForResponse = false, lastItems = [], cooldownUntil = 0, lastFingerprint = "";
+    let conversationEpoch = 0;
     try {
       token = sessionStorage.getItem("erokha_session_v1");
       const stored = JSON.parse(sessionStorage.getItem("erokha_pending_v1") || "null");
@@ -93,11 +97,14 @@
       get(".erokha-send").disabled = value || waitingForResponse || !enabled;
       get(".erokha-action").disabled = value || !enabled;
       get(".erokha-submit").disabled = value || !enabled;
+      get(".erokha-clear").disabled = value;
     }
     function translate() {
       root.querySelectorAll("[data-ero]").forEach(node => node.textContent = tr(node.dataset.ero));
       launcher.setAttribute("aria-label",tr("open"));
       get(".erokha-close").setAttribute("aria-label",tr("close"));
+      get(".erokha-clear").setAttribute("aria-label",tr("clear"));
+      get(".erokha-clear").title = tr("clear");
       input.placeholder = tr("input");
       get(".erokha-send").setAttribute("aria-label",tr("send"));
       get(".erokha-contact-detail").placeholder = tr("contact");
@@ -215,14 +222,17 @@
     }
     async function refresh() {
       if (!open || document.hidden || fetching || !enabled || Date.now() < cooldownUntil) return;
+      const epoch = conversationEpoch;
       fetching = true;
       try {
         await session();
+        if (epoch !== conversationEpoch) return;
         const data = await call("/v1/history");
+        if (epoch !== conversationEpoch) return;
         show(Array.isArray(data.messages) ? data.messages : []);
         if (statusKey === "loading") inform("");
       } catch (error) {
-        await handleError(error);
+        if (epoch === conversationEpoch) await handleError(error);
       } finally { fetching = false; }
     }
     function updatePolling() {
@@ -249,6 +259,32 @@
       else get(".erokha-direct").focus();
     });
     get(".erokha-close").addEventListener("click",close);
+    get(".erokha-clear").addEventListener("click", () => {
+      if (busy || !window.confirm(tr("clearConfirm"))) return;
+      // The current API does not expose history deletion; this ends the browser session only.
+      conversationEpoch++;
+      token = null;
+      sessionPromise = null;
+      pending = null;
+      waitingForResponse = false;
+      lastItems = [];
+      lastFingerprint = "";
+      cooldownUntil = 0;
+      list.replaceChildren();
+      input.value = "";
+      get(".erokha-request").value = "";
+      get(".erokha-contact-detail").value = "";
+      get(".erokha-optin").checked = false;
+      root.classList.remove("contact-open");
+      savePending();
+      try {
+        sessionStorage.removeItem("erokha_session_v1");
+        sessionStorage.removeItem("erokha_draft_v1");
+      } catch (_) {}
+      setBusy(false);
+      inform("clearSuccess");
+      if (!fetching) void refresh();
+    });
     root.addEventListener("keydown",e=>{
       if (e.key==="Escape"&&open) {
         e.preventDefault(); if (root.classList.contains("contact-open")) root.classList.remove("contact-open");
