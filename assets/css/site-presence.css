@@ -1,0 +1,29 @@
+/* Compact live presence indicator, independent of the Erokha chat. */
+.site-live-visitors{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  min-height:30px;
+  padding:5px 11px;
+  border:1px solid rgba(101,226,194,.23);
+  border-radius:999px;
+  color:#b9e5d9;
+  background:rgba(101,226,194,.07);
+  font-size:.75rem;
+  font-weight:700;
+  white-space:nowrap;
+  font-variant-numeric:tabular-nums;
+}
+.site-live-visitors[hidden]{display:none}
+.site-live-visitors-dot{
+  display:block;
+  width:7px;
+  height:7px;
+  flex:0 0 7px;
+  border-radius:50%;
+  background:#65e2c2;
+  box-shadow:0 0 10px rgba(101,226,194,.65);
+}
+@media(max-width:480px){
+  .site-live-visitors{font-size:.72rem}
+}
