@@ -69,7 +69,7 @@
     const language = () => document.documentElement.lang === "en" ? "en" : "ru";
     const tr = key => copy[language()][key];
     let token, busy = false, open = false, fetching = false, poll = null, statusKey = "";
-    let sessionPromise = null, pending = null, waitingForResponse = false, lastItems = [], cooldownUntil = 0;
+    let sessionPromise = null, pending = null, waitingForResponse = false, lastItems = [], cooldownUntil = 0, lastFingerprint = "";
     try {
       token = sessionStorage.getItem("erokha_session_v1");
       const stored = JSON.parse(sessionStorage.getItem("erokha_pending_v1") || "null");
@@ -132,8 +132,8 @@
       lastItems = items.filter(item => ["user","assistant","developer"].includes(item.role));
       const atEnd = scroll.scrollHeight-scroll.scrollTop-scroll.clientHeight < 90;
       const fingerprint = JSON.stringify(lastItems.map(item => [item.role,item.text,language()]));
-      if (list.dataset.fingerprint !== fingerprint) {
-        list.dataset.fingerprint = fingerprint;
+      if (lastFingerprint !== fingerprint) {
+        lastFingerprint = fingerprint;
         list.replaceChildren();
         for (const item of lastItems) {
           const bubble = document.createElement("div");
@@ -194,7 +194,11 @@
         token = null;
         pending = null;
         waitingForResponse = false;
+        lastItems = [];
+        lastFingerprint = "";
+        list.replaceChildren();
         savePending();
+        setBusy(false);
         try { sessionStorage.removeItem("erokha_session_v1"); } catch (_) {}
         inform("expired");
         try { await session(); } catch (_) { inform("error"); }
