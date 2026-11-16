@@ -60,6 +60,8 @@
     ].join("");
     document.body.append(root);
     const get = selector => root.querySelector(selector);
+    // Touch devices do not get an automatic input focus/keyboard/viewport zoom.
+    const allowAutoFocus = () => window.matchMedia("(hover: hover) and (pointer: fine)").matches;
     const launcher = get(".erokha-launcher"), input = get(".erokha-input");
     try { input.value = sessionStorage.getItem("erokha_draft_v1") || ""; } catch (_) {}
     input.addEventListener("input", () => {
@@ -104,7 +106,7 @@
       tr("choices").forEach((label, i) => {
         const b = document.createElement("button");
         b.type = "button"; b.className = "erokha-chip"; b.textContent = label; b.disabled = !enabled;
-        b.addEventListener("click", () => { if (!busy) { input.value = tr("questions")[i]; input.focus(); } });
+        b.addEventListener("click", () => { if (!busy) { input.value = tr("questions")[i]; if (allowAutoFocus()) input.focus(); } });
         chips.append(b);
       });
     }
@@ -243,7 +245,7 @@
       get(".erokha-panel").removeAttribute("inert");
       get(".erokha-panel").setAttribute("aria-hidden","false");
       inform(enabled?"loading":"offline");
-      if (enabled) { updatePolling(); if (!waitingForResponse) input.focus(); }
+      if (enabled) { updatePolling(); if (!waitingForResponse && allowAutoFocus()) input.focus(); }
       else get(".erokha-direct").focus();
     });
     get(".erokha-close").addEventListener("click",close);
@@ -284,14 +286,14 @@
       } finally {
         setBusy(false);
         await refresh();
-        if (open && !waitingForResponse) input.focus();
+        if (open && !waitingForResponse && allowAutoFocus()) input.focus();
       }
     });
     get(".erokha-action").addEventListener("click",()=>{
       if (!enabled) return;
       root.classList.add("contact-open");
       if (input.value.trim()&&!get(".erokha-request").value) get(".erokha-request").value=input.value;
-      get(".erokha-request").focus();
+      if (allowAutoFocus()) get(".erokha-request").focus();
     });
     get(".erokha-cancel").addEventListener("click",()=>root.classList.remove("contact-open"));
     get(".erokha-contact-form").addEventListener("submit",async e=>{
