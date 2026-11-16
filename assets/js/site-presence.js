@@ -17,6 +17,7 @@
     let inflight = false;
     let lastCount = null;
     let consecutiveFailures = 0;
+    let unsupported = false;
 
     try {
       visitorId = sessionStorage.getItem(storageKey);
@@ -45,7 +46,7 @@
     }
 
     async function heartbeat(active, keepalive = false) {
-      if (inflight && active) return;
+      if (unsupported || (inflight && active)) return;
       if (active) inflight = true;
       const controller = keepalive ? null : new AbortController();
       const timeout = controller ? setTimeout(() => controller.abort(), 8000) : null;
@@ -60,6 +61,11 @@
           body: JSON.stringify({visitor_id:visitorId,active}),
           ...(controller ? {signal:controller.signal} : {})
         });
+        if (response.status === 404 || response.status === 405) {
+          unsupported = true;
+          if (timer !== null) clearInterval(timer);
+          timer = null;
+        }
         if (!response.ok) throw new Error("Presence service unavailable");
         if (!active || document.hidden) return;
         const data = await response.json();
@@ -84,6 +90,7 @@
     }
 
     function schedule() {
+      if (unsupported) return;
       if (timer !== null) clearInterval(timer);
       timer = null;
       if (document.hidden) {
@@ -97,6 +104,9 @@
     }
 
     document.addEventListener("visibilitychange", schedule);
+    window.addEventListener("pageshow", event => {
+      if (event.persisted && !document.hidden) schedule();
+    });
     window.addEventListener("pagehide", () => {
       if (timer !== null) clearInterval(timer);
       timer = null;
