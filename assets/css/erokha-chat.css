@@ -13,6 +13,9 @@
 #erokha-chat .erokha-identity{flex:1;min-width:0}
 #erokha-chat .erokha-identity strong{display:block;font-size:.9rem}
 #erokha-chat .erokha-identity small{display:block;margin-top:3px;color:#b0c5d2;font-size:.68rem}
+#erokha-chat .erokha-clear{display:grid;place-items:center;flex:0 0 34px;width:34px;height:34px;padding:7px;border:1px solid #ffffff30;border-radius:10px;background:#ffffff12;color:#cce8e4}
+#erokha-chat .erokha-clear:hover{background:#ffffff20;color:#65e2c2}
+#erokha-chat .erokha-clear:disabled{cursor:not-allowed;opacity:.4}
 #erokha-chat .erokha-close{border:0;background:transparent;color:#e9f4ff;font-size:24px;padding:6px 9px}
 #erokha-chat .erokha-scroll{flex:1;overflow-y:auto;overscroll-behavior:contain;padding:14px 12px;min-height:0;scrollbar-color:#466073 transparent}
 #erokha-chat .erokha-welcome{padding:12px;border-radius:12px;background:#ffffff0d;color:#c5d2df;font-size:.76rem;line-height:1.7;margin-bottom:15px}
