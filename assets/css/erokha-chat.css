@@ -59,12 +59,6 @@
 @media(max-width:600px) and (max-height:440px){
   #erokha-chat .erokha-panel{height:min(320px,72dvh)}
 }
-/* iOS Safari zooms the page when focusing text controls smaller than 16px. */
-@media(max-width:780px),(pointer:coarse){
-  #erokha-chat .erokha-input,
-  #erokha-chat .erokha-contact-detail,
-  #erokha-chat .erokha-request{font-size:16px}
-}
 @media(prefers-reduced-motion:reduce){#erokha-chat *,#erokha-chat *::before,#erokha-chat *::after{transition:none!important;animation:none!important}}
 
 #erokha-chat .erokha-launcher:hover{animation-play-state:paused;transform:translateY(-2px) scale(1.03);box-shadow:0 16px 40px #000a,0 0 30px #65e2c255}
@@ -120,4 +114,11 @@
 @media(prefers-reduced-transparency:reduce){
   #erokha-chat .erokha-panel{-webkit-backdrop-filter:none;backdrop-filter:none;background:#122237}
   #erokha-chat .erokha-panel::before,#erokha-chat .erokha-panel::after{display:none}
+}
+
+/* iOS Safari zooms the page when focusing text controls smaller than 16px. */
+@media(max-width:780px),(pointer:coarse){
+  #erokha-chat .erokha-input,
+  #erokha-chat .erokha-contact-detail,
+  #erokha-chat .erokha-request{font-size:16px}
 }
