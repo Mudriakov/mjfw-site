@@ -54,20 +54,7 @@
   background:#65e2c2;
 }
 #cookie-notice.cookie-consent button:hover{filter:brightness(1.07)}
-#cookie-notice.cookie-consent button:focus-visible,
-#cookieSettings:focus-visible{outline:2px solid #65e2c2;outline-offset:3px}
-#cookieSettings.cookie-settings-button{
-  appearance:none;
-  padding:0;
-  border:0;
-  background:transparent;
-  color:#a9bbd1;
-  cursor:pointer;
-  text-decoration:underline;
-  text-underline-offset:3px;
-  font:inherit;
-}
-#cookieSettings.cookie-settings-button:hover{color:#65e2c2}
+#cookie-notice.cookie-consent button:focus-visible{outline:2px solid #65e2c2;outline-offset:3px}
 @media(max-width:1020px){
   #cookie-notice.cookie-consent{
     width:min(650px,calc(100vw - 30px));
